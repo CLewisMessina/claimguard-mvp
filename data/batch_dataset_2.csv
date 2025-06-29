@@ -1,0 +1,69 @@
+claim_id,patient_id,age,gender,cpt_code,diagnosis_code,service_date,provider_id,charge_amount,expected_error,error_description
+3000,P3000,35,M,59400,Z00.00,2025-06-20,PR101,500,Gender-Procedure Mismatch,Male patient with female-only procedure
+3001,P3001,34,M,59400,Z00.00,2025-06-20,PR101,480,Gender-Procedure Mismatch,Male patient with female-only procedure  
+3002,P3002,36,M,59400,Z00.00,2025-06-20,PR101,520,Gender-Procedure Mismatch,Male patient with female-only procedure
+3003,P3003,35,M,59400,Z00.00,2025-06-20,PR101,490,Gender-Procedure Mismatch,Male patient with female-only procedure
+3004,P3004,33,M,59400,Z00.00,2025-06-20,PR101,510,Gender-Procedure Mismatch,Male patient with female-only procedure
+3005,P3005,37,M,58150,Z00.00,2025-06-20,PR101,475,Gender-Procedure Mismatch,Male patient with female-only procedure
+3006,P3006,35,M,58150,Z00.00,2025-06-20,PR101,505,Gender-Procedure Mismatch,Male patient with female-only procedure
+3007,P3007,34,M,58150,Z00.00,2025-06-20,PR101,485,Gender-Procedure Mismatch,Male patient with female-only procedure
+3008,P3008,36,M,76801,Z00.00,2025-06-20,PR101,515,Gender-Procedure Mismatch,Male patient with female-only procedure
+3009,P3009,35,M,76801,Z00.00,2025-06-20,PR101,495,Gender-Procedure Mismatch,Male patient with female-only procedure
+3010,P3010,33,F,55700,Z00.00,2025-06-20,PR102,525,Gender-Procedure Mismatch,Female patient with male-only procedure
+3011,P3011,37,F,55700,Z00.00,2025-06-20,PR102,465,Gender-Procedure Mismatch,Female patient with male-only procedure
+3012,P3012,35,F,55700,Z00.00,2025-06-20,PR102,500,Gender-Procedure Mismatch,Female patient with male-only procedure
+3013,P3013,34,F,55250,Z00.00,2025-06-20,PR102,480,Gender-Procedure Mismatch,Female patient with male-only procedure
+3014,P3014,36,F,55250,Z00.00,2025-06-20,PR102,520,Gender-Procedure Mismatch,Female patient with male-only procedure
+3015,P3015,10,M,55700,Z00.129,2025-06-21,PR103,800,Age-Procedure Mismatch,Child with adult-only procedure
+3016,P3016,12,F,77067,Z00.129,2025-06-21,PR103,780,Age-Procedure Mismatch,Child with adult-only procedure
+3017,P3017,8,M,45378,Z00.129,2025-06-21,PR103,820,Age-Procedure Mismatch,Child with adult-only procedure
+3018,P3018,15,F,99397,Z00.129,2025-06-21,PR103,790,Age-Procedure Mismatch,Child with adult-only procedure
+3019,P3019,14,M,55700,Z00.129,2025-06-21,PR103,810,Age-Procedure Mismatch,Child with adult-only procedure
+3020,P3020,45,M,90460,Z00.00,2025-06-22,PR104,775,Age-Procedure Mismatch,Adult with pediatric procedure
+3021,P3021,55,F,90460,Z00.00,2025-06-22,PR104,805,Age-Procedure Mismatch,Adult with pediatric procedure
+3022,P3022,40,M,99381,Z00.00,2025-06-22,PR104,785,Age-Procedure Mismatch,Adult with pediatric procedure
+3023,P3023,65,F,99382,Z00.00,2025-06-22,PR104,815,Age-Procedure Mismatch,Adult with pediatric procedure
+3024,P3024,50,M,90460,Z00.00,2025-06-22,PR104,795,Age-Procedure Mismatch,Adult with pediatric procedure
+3025,P3025,35,M,29827,M25.511,2025-06-23,PR105,825,Anatomical Logic Error,Knee procedure with shoulder diagnosis
+3026,P3026,40,F,29827,M75.30,2025-06-23,PR105,765,Anatomical Logic Error,Knee procedure with shoulder diagnosis
+3027,P3027,45,M,27447,S43.006A,2025-06-23,PR105,800,Anatomical Logic Error,Knee procedure with shoulder diagnosis
+3028,P3028,30,F,29826,M25.561,2025-06-23,PR105,780,Anatomical Logic Error,Shoulder procedure with knee diagnosis
+3029,P3029,50,M,29826,M17.11,2025-06-23,PR105,820,Anatomical Logic Error,Shoulder procedure with knee diagnosis
+3030,P3030,25,M,36415,Z00.00,2025-06-24,PR106,1500,Severity Mismatch,Emergency procedure with routine diagnosis
+3031,P3031,40,F,99281,Z12.11,2025-06-24,PR106,1200,Severity Mismatch,Emergency procedure with routine diagnosis
+3032,P3032,35,M,99291,Z01.419,2025-06-24,PR106,2500,Severity Mismatch,Emergency procedure with routine diagnosis
+3033,P3033,55,F,99283,Z00.00,2025-06-24,PR106,1800,Severity Mismatch,Emergency procedure with routine diagnosis
+3034,P3034,30,M,36415,Z12.11,2025-06-24,PR106,1600,Severity Mismatch,Emergency procedure with routine diagnosis
+3035,P3035,30,F,99213,M25.561,2025-06-25,PR107,250,None,Valid claim - no errors detected
+3036,P3036,31,F,99213,M25.561,2025-06-25,PR107,230,None,Valid claim - no errors detected
+3037,P3037,29,F,99213,M25.561,2025-06-25,PR107,270,None,Valid claim - no errors detected
+3038,P3038,32,F,99213,M25.561,2025-06-25,PR107,240,None,Valid claim - no errors detected
+3039,P3039,28,F,99213,M25.561,2025-06-25,PR107,260,None,Valid claim - no errors detected
+3040,P3040,55,M,55700,N40.1,2025-06-25,PR108,800,None,Valid claim - no errors detected
+3041,P3041,54,M,55700,N40.1,2025-06-25,PR108,780,None,Valid claim - no errors detected
+3042,P3042,56,M,55700,N40.1,2025-06-25,PR108,820,None,Valid claim - no errors detected
+3043,P3043,53,M,55700,N40.1,2025-06-25,PR108,790,None,Valid claim - no errors detected
+3044,P3044,57,M,55700,N40.1,2025-06-25,PR108,810,None,Valid claim - no errors detected
+3045,P3045,8,M,90460,Z00.129,2025-06-25,PR109,150,None,Valid claim - no errors detected
+3046,P3046,7,M,90460,Z00.129,2025-06-25,PR109,140,None,Valid claim - no errors detected
+3047,P3047,9,F,90460,Z00.129,2025-06-25,PR109,160,None,Valid claim - no errors detected
+3048,P3048,6,M,90460,Z00.129,2025-06-25,PR109,145,None,Valid claim - no errors detected
+3049,P3049,10,F,90460,Z00.129,2025-06-25,PR109,155,None,Valid claim - no errors detected
+3050,P3050,42,F,77067,Z12.31,2025-06-25,PR110,350,None,Valid claim - no errors detected
+3051,P3051,41,F,77067,Z12.31,2025-06-25,PR110,330,None,Valid claim - no errors detected
+3052,P3052,43,F,77067,Z12.31,2025-06-25,PR110,370,None,Valid claim - no errors detected
+3053,P3053,40,F,77067,Z12.31,2025-06-25,PR110,340,None,Valid claim - no errors detected
+3054,P3054,44,F,77067,Z12.31,2025-06-25,PR110,360,None,Valid claim - no errors detected
+3055,P3055,35,M,29827,M25.561,2025-06-25,PR111,1200,None,Valid claim - no errors detected
+3056,P3056,34,M,29827,M25.561,2025-06-25,PR111,1180,None,Valid claim - no errors detected
+3057,P3057,36,F,29827,M25.561,2025-06-25,PR111,1220,None,Valid claim - no errors detected
+3058,P3058,33,M,29827,M25.561,2025-06-25,PR111,1190,None,Valid claim - no errors detected
+3059,P3059,37,F,29827,M25.561,2025-06-25,PR111,1210,None,Valid claim - no errors detected
+3060,P3060,28,F,99214,F32.9,2025-06-25,PR112,300,None,Valid claim - no errors detected
+3061,P3061,27,F,99214,F32.9,2025-06-25,PR112,290,None,Valid claim - no errors detected
+3062,P3062,29,M,99214,F32.9,2025-06-25,PR112,310,None,Valid claim - no errors detected
+3063,P3063,26,F,99214,F32.9,2025-06-25,PR112,295,None,Valid claim - no errors detected
+3064,P3064,30,M,99214,F32.9,2025-06-25,PR112,305,None,Valid claim - no errors detected
+3065,P9999,50,M,99213,M25.561,2025-06-25,PR113,250,Duplicate Service,Same patient same day same procedure
+3066,P9999,50,M,99213,M25.561,2025-06-25,PR113,250,Duplicate Service,Same patient same day same procedure
+3067,P9999,50,M,99213,M25.561,2025-06-25,PR113,250,Duplicate Service,Same patient same day same procedure

@@ -1,0 +1,34 @@
+claim_id,patient_id,age,gender,cpt_code,diagnosis_code,service_date,provider_id,charge_amount,expected_error,error_description
+1000,P1000,32,M,59400,R10.9,2025-06-15,PR216,1562,Gender-Procedure Mismatch,Male patient with female-only procedure
+1001,P1001,39,M,81025,Z00.00,2025-06-15,PR402,727,Gender-Procedure Mismatch,Male patient with female-only procedure
+1002,P1002,44,M,58150,M79.3,2025-06-15,PR891,1606,Gender-Procedure Mismatch,Male patient with female-only procedure
+1003,P1003,39,M,59400,R10.9,2025-06-15,PR467,1715,Gender-Procedure Mismatch,Male patient with female-only procedure
+1004,P1004,22,F,54150,Z00.00,2025-06-16,PR412,1112,Gender-Procedure Mismatch,Female patient with male-only procedure
+1005,P1005,20,F,55250,R31.9,2025-06-16,PR117,592,Gender-Procedure Mismatch,Female patient with male-only procedure
+1006,P1006,47,F,54150,N39.0,2025-06-16,PR735,971,Gender-Procedure Mismatch,Female patient with male-only procedure
+1007,P1007,41,F,55700,N39.0,2025-06-16,PR190,382,Gender-Procedure Mismatch,Female patient with male-only procedure
+1008,P1008,7,M,45378,Z00.129,2025-06-17,PR615,613,Age-Procedure Mismatch,Child with adult-only procedure
+1009,P1009,6,M,45378,Z00.129,2025-06-17,PR118,179,Age-Procedure Mismatch,Child with adult-only procedure
+1010,P1010,15,M,99397,Z00.129,2025-06-17,PR101,483,Age-Procedure Mismatch,Child with adult-only procedure
+1011,P1011,56,M,90460,Z00.00,2025-06-18,PR722,148,Age-Procedure Mismatch,Adult with pediatric procedure
+1012,P1012,54,F,99381,Z01.419,2025-06-18,PR918,256,Age-Procedure Mismatch,Adult with pediatric procedure
+1013,P1013,68,M,99381,Z00.00,2025-06-18,PR511,286,Age-Procedure Mismatch,Adult with pediatric procedure
+1014,P1014,46,M,27447,M25.511,2025-06-19,PR366,1327,Anatomical Logic Error,Knee procedure with shoulder diagnosis
+1015,P1015,45,M,29827,S43.006A,2025-06-19,PR677,2800,Anatomical Logic Error,Knee procedure with shoulder diagnosis
+1016,P1016,46,M,29807,M21.371,2025-06-19,PR636,619,Anatomical Logic Error,Shoulder procedure with foot diagnosis
+1017,P1017,64,F,29826,M21.371,2025-06-19,PR783,1287,Anatomical Logic Error,Shoulder procedure with foot diagnosis
+1018,P1018,26,M,28285,M17.11,2025-06-19,PR984,873,Anatomical Logic Error,Foot procedure with knee diagnosis
+1019,P1019,40,F,28285,M25.561,2025-06-19,PR845,1324,Anatomical Logic Error,Foot procedure with knee diagnosis
+1020,P1020,49,F,99291,Z00.00,2025-06-20,PR556,4423,Severity Mismatch,Emergency procedure with routine diagnosis
+1021,P1021,40,F,99291,Z00.00,2025-06-20,PR571,4003,Severity Mismatch,Emergency procedure with routine diagnosis
+1022,P1022,65,M,36415,Z01.419,2025-06-20,PR625,1490,Severity Mismatch,Emergency procedure with routine diagnosis
+1023,P1023,38,M,36415,Z01.419,2025-06-20,PR368,4119,Severity Mismatch,Emergency procedure with routine diagnosis
+1024,P9999,45,F,99213,M25.561,2025-06-21,PR123,250,Duplicate Service,Same procedure billed multiple times same day
+1025,P9999,45,F,99213,M25.561,2025-06-21,PR123,250,Duplicate Service,Same procedure billed multiple times same day
+1026,P9999,45,F,99213,M25.561,2025-06-21,PR123,250,Duplicate Service,Same procedure billed multiple times same day
+1027,P1027,30,F,99213,M25.561,2025-06-22,PR765,667,None,Valid claim - no errors detected
+1028,P1028,55,M,55700,N40.1,2025-06-22,PR904,1091,None,Valid claim - no errors detected
+1029,P1029,8,M,90460,Z00.129,2025-06-22,PR186,170,None,Valid claim - no errors detected
+1030,P1030,42,F,77067,Z12.31,2025-06-22,PR410,858,None,Valid claim - no errors detected
+1031,P1031,35,M,29827,M25.561,2025-06-22,PR913,925,None,Valid claim - no errors detected
+1032,P1032,28,F,99214,F32.9,2025-06-22,PR437,1080,None,Valid claim - no errors detected

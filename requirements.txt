@@ -1,0 +1,22 @@
+# ClaimGuard MVP - Dependencies
+# Data processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Web interface  
+streamlit>=1.28.0
+
+# AI integration
+openai>=1.0.0
+
+# Configuration
+python-dotenv>=1.0.0
+
+# Visualization
+plotly>=5.15.0
+
+# Excel export capability
+openpyxl>=3.1.0
+
+# Optional: Enhanced data validation
+jsonschema>=4.17.0
