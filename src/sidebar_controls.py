@@ -1,7 +1,7 @@
 # src/sidebar_controls.py
 """
-ClaimGuard - Sidebar Controls and Settings
-Centralized sidebar management with user controls and settings
+ClaimGuard - Streamlined Sidebar Controls
+Focus on core functionality without performance monitoring clutter
 """
 
 import streamlit as st
@@ -9,11 +9,11 @@ from typing import Tuple
 from data_handlers import DataHandler
 
 class SidebarControls:
-    """Manages sidebar controls and user settings"""
+    """Manages streamlined sidebar controls focused on business functionality"""
     
     @staticmethod
     def render_sidebar() -> Tuple[bool, list, str, int]:
-        """Render complete sidebar with all controls"""
+        """Render streamlined sidebar with core controls only"""
         with st.sidebar:
             st.markdown("### 📋 ClaimGuard Controls")
             
@@ -23,14 +23,14 @@ class SidebarControls:
             # Sample data section
             SidebarControls._render_sample_data_section()
             
-            # AI analysis settings
-            ai_settings = SidebarControls._render_ai_settings()
+            # AI analysis settings (simplified)
+            ai_settings = SidebarControls._render_simplified_ai_settings()
             
             # Validation filters
             severity_filter = SidebarControls._render_validation_filters()
             
-            # Information panels
-            SidebarControls._render_info_panels()
+            # Information panels (streamlined)
+            SidebarControls._render_streamlined_info_panels()
             
             return ai_settings + (severity_filter,)
     
@@ -48,8 +48,8 @@ class SidebarControls:
             DataHandler.load_sample_dataset()
     
     @staticmethod
-    def _render_ai_settings() -> Tuple[bool, str, int]:
-        """Render AI analysis settings"""
+    def _render_simplified_ai_settings() -> Tuple[bool, str, int]:
+        """Render simplified AI analysis settings"""
         st.markdown("#### ⚙️ AI Analysis Settings")
         
         enable_ai_explanations = st.checkbox(
@@ -70,7 +70,7 @@ class SidebarControls:
             min_value=1,
             max_value=10,
             value=5,
-            help="Limit AI analysis for demo performance (production: unlimited)"
+            help="Limit AI analysis for demo performance"
         )
         
         return enable_ai_explanations, ai_analysis_depth, max_ai_claims
@@ -78,7 +78,7 @@ class SidebarControls:
     @staticmethod
     def _render_validation_filters() -> list:
         """Render validation filter controls"""
-        st.markdown("#### 🔍 Validation Filters")
+        st.markdown("#### 🔍 Display Filters")
         
         severity_filter = st.multiselect(
             "Show Error Severities",
@@ -90,42 +90,42 @@ class SidebarControls:
         return severity_filter
     
     @staticmethod
-    def _render_info_panels():
-        """Render information panels"""
-        # AI capabilities panel
+    def _render_streamlined_info_panels():
+        """Render streamlined information panels"""
+        # Core value proposition panel
         st.markdown('<div class="sidebar-info">', unsafe_allow_html=True)
-        st.markdown("### 🤖 AI-Powered Analysis")
+        st.markdown("### 🎯 Core Value")
         st.markdown("""
-        **Enhanced AI Features:**
-        - Medical reasoning with clinical context
-        - Financial impact calculations
-        - Regulatory compliance assessment
-        - Fraud risk indicators
-        - Actionable next steps
-        """)
-        st.markdown('</div>', unsafe_allow_html=True)
-        
-        # About ClaimGuard panel
-        st.markdown('<div class="sidebar-info">', unsafe_allow_html=True)
-        st.markdown("### 📖 About ClaimGuard")
-        st.markdown("""
-        **ClaimGuard** validates healthcare claims before payment to prevent:
+        **ClaimGuard prevents:**
         - Gender-procedure mismatches
         - Age-inappropriate procedures  
         - Anatomical logic errors
-        - Severity mismatches
         - Duplicate billing
+        - Severity mismatches
+        """)
+        st.markdown('</div>', unsafe_allow_html=True)
+        
+        # AI capabilities panel (simplified)
+        st.markdown('<div class="sidebar-info">', unsafe_allow_html=True)
+        st.markdown("### 🤖 AI Features")
+        st.markdown("""
+        **AI-Powered Analysis:**
+        - Medical reasoning
+        - Financial impact
+        - Regulatory concerns
+        - Actionable next steps
+        - Fraud risk assessment
         """)
         st.markdown('</div>', unsafe_allow_html=True)
     
     @staticmethod
     def render_processing_controls():
-        """Render processing control buttons"""
+        """Render streamlined processing control buttons"""
         col1, col2 = st.columns([3, 1])
         
         with col1:
             validate_button = st.button(
-                "🔍 Validate Claims with AI Analysis", 
+                "🔍 Validate Claims with AI", 
                 type="primary", 
                 key="validate_button",
                 help="Run comprehensive claims validation with AI analysis"

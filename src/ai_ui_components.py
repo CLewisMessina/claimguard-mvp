@@ -1,7 +1,7 @@
-# src/ai_ui_components.py
+# src/ai_ui_components.py - STREAMLINED VERSION
 """
-ClaimGuard - AI-Specific UI Components
-Advanced AI explanation display and analysis components
+ClaimGuard - Streamlined AI UI Components
+Focus on business value, remove performance monitoring clutter
 """
 
 import streamlit as st
@@ -10,16 +10,16 @@ from typing import Dict, Any
 from ai_explainer import ExplanationResult
 
 class AIUIComponents:
-    """UI components for displaying AI analysis results"""
+    """Streamlined UI components for displaying AI analysis results"""
     
     @staticmethod
     def render_enhanced_ai_explanation(explanation: ExplanationResult):
-        """Render enhanced AI explanation with professional healthcare styling"""
+        """Render AI explanation focused on business value"""
         
         # AI-powered banner
         st.markdown("""
         <div class="ai-powered-banner">
-            <strong>🤖 AI HEALTHCARE EXPERT ANALYSIS</strong> - Advanced Medical & Business Intelligence
+            <strong>🤖 AI HEALTHCARE EXPERT ANALYSIS</strong>
         </div>
         """, unsafe_allow_html=True)
         
@@ -34,31 +34,27 @@ class AIUIComponents:
         </div>
         """, unsafe_allow_html=True)
         
-        # Medical reasoning section
+        # Core business analysis sections
         AIUIComponents._render_ai_section(
             "🏥 Medical Reasoning", 
             explanation.medical_reasoning
         )
         
-        # Business impact section
         AIUIComponents._render_ai_section(
             "💼 Business Impact", 
             explanation.business_impact
         )
         
-        # Financial impact section
         AIUIComponents._render_ai_section(
             "💰 Financial Impact", 
             explanation.financial_impact
         )
         
-        # Regulatory concerns section
         AIUIComponents._render_ai_section(
             "📋 Regulatory Concerns", 
             explanation.regulatory_concerns
         )
         
-        # Next steps section
         AIUIComponents._render_ai_section(
             "🎯 Recommended Actions", 
             explanation.next_steps
@@ -101,7 +97,7 @@ class AIUIComponents:
     
     @staticmethod
     def render_ai_summary_dashboard(ai_explanations: Dict[str, ExplanationResult]):
-        """Render summary dashboard of AI analysis results"""
+        """Render streamlined AI analysis summary focused on business value"""
         if not ai_explanations:
             return
         
@@ -118,22 +114,14 @@ class AIUIComponents:
             'LOW': risk_levels.count('LOW')
         }
         
-        # AI metrics dashboard
-        AIUIComponents._render_ai_metrics(total_analyses, risk_counts, avg_confidence, ai_explanations)
-        
-        # Risk distribution charts
-        AIUIComponents._render_ai_charts(risk_counts, ai_explanations)
-    
-    @staticmethod
-    def _render_ai_metrics(total_analyses: int, risk_counts: dict, avg_confidence: float, ai_explanations: dict):
-        """Render AI metrics dashboard"""
+        # Streamlined business-focused metrics
         col1, col2, col3, col4 = st.columns(4)
         
         with col1:
             st.metric(
-                label="🤖 AI Analyses",
+                label="🧠 AI Analyses",
                 value=f"{total_analyses}",
-                help="Total number of AI-powered explanations generated"
+                help="Number of AI-powered explanations generated"
             )
         
         with col2:
@@ -141,7 +129,8 @@ class AIUIComponents:
                 label="🚨 High Risk",
                 value=f"{risk_counts['HIGH']}",
                 delta=f"{(risk_counts['HIGH']/total_analyses*100):.0f}% of total",
-                delta_color="inverse"
+                delta_color="inverse",
+                help="Claims requiring immediate attention"
             )
         
         with col3:
@@ -154,71 +143,64 @@ class AIUIComponents:
         with col4:
             fraud_indicators_count = sum(len(exp.fraud_indicators) for exp in ai_explanations.values())
             st.metric(
-                label="🔍 Fraud Indicators",
+                label="🔍 Fraud Flags",
                 value=f"{fraud_indicators_count}",
                 help="Total fraud risk indicators identified"
             )
+        
+        # Simple risk distribution chart (removed complex analytics)
+        if risk_counts:
+            AIUIComponents._render_simple_risk_chart(risk_counts)
     
     @staticmethod
-    def _render_ai_charts(risk_counts: dict, ai_explanations: dict):
-        """Render AI analysis charts"""
-        if not risk_counts:
-            return
-        
-        col1, col2 = st.columns(2)
+    def _render_simple_risk_chart(risk_counts: dict):
+        """Render simplified risk distribution chart"""
+        col1, col2 = st.columns([1, 1])
         
         with col1:
-            # Risk distribution pie chart
+            # Simple risk distribution pie chart
             fig_risk = px.pie(
                 values=list(risk_counts.values()),
                 names=list(risk_counts.keys()),
-                title="AI Risk Assessment Distribution",
+                title="Risk Assessment Distribution",
                 color=list(risk_counts.keys()),
                 color_discrete_map={'HIGH': '#dc2626', 'MEDIUM': '#d97706', 'LOW': '#10b981'}
             )
-            fig_risk.update_layout(height=300)
+            fig_risk.update_layout(height=300, showlegend=True)
             st.plotly_chart(fig_risk, use_container_width=True)
         
         with col2:
-            # Confidence distribution histogram
-            confidence_scores = [exp.confidence for exp in ai_explanations.values()]
-            fig_confidence = px.histogram(
-                x=confidence_scores,
-                title="AI Confidence Score Distribution",
-                nbins=5,
-                color_discrete_sequence=['#3b82f6']
-            )
-            fig_confidence.update_layout(
-                height=300,
-                xaxis_title="Confidence Score",
-                yaxis_title="Number of Analyses"
-            )
-            st.plotly_chart(fig_confidence, use_container_width=True)
+            # Simple risk summary
+            st.markdown("#### Risk Summary")
+            for risk_level, count in risk_counts.items():
+                percentage = (count / sum(risk_counts.values()) * 100)
+                color = {'HIGH': '🔴', 'MEDIUM': '🟡', 'LOW': '🟢'}[risk_level]
+                st.markdown(f"{color} **{risk_level}**: {count} claims ({percentage:.0f}%)")
     
     @staticmethod
-    def render_ai_processing_status(current_claim: int, total_claims: int, claim_id: str):
-        """Render AI processing status indicator"""
+    def render_simple_processing_status(current_claim: int, total_claims: int, claim_id: str):
+        """Render simplified processing status"""
         progress = current_claim / total_claims if total_claims > 0 else 0
         
         st.markdown(f"""
-        <div style="margin: 1rem 0;">
-            <h4>🤖 Generating AI Analysis: Claim {claim_id}</h4>
+        <div style="margin: 1rem 0; text-align: center;">
+            <h4>🤖 Generating AI Analysis</h4>
+            <p>Processing claim {claim_id} ({current_claim} of {total_claims})</p>
             <div style="
                 background-color: #e5e7eb; 
                 border-radius: 10px; 
                 height: 20px; 
                 overflow: hidden;
+                margin: 1rem 0;
             ">
                 <div style="
-                    background: linear-gradient(90deg, #667eea, #764ba2); 
+                    background: linear-gradient(90deg, #7ed321, #6bb91a); 
                     height: 100%; 
                     width: {progress * 100}%; 
                     transition: width 0.3s ease;
                 "></div>
             </div>
-            <p style="margin-top: 0.5rem; color: #64748b;">
-                Processing {current_claim} of {total_claims} AI analyses ({progress:.0%} complete)
-            </p>
+            <p style="color: #667085;">{progress:.0%} complete</p>
         </div>
         """, unsafe_allow_html=True)
     
@@ -235,7 +217,7 @@ class AIUIComponents:
             text-align: center;
         ">
             <h4>⚠️ AI Analysis Temporarily Unavailable</h4>
-            <p>Advanced AI explanations are currently unavailable. Validation results are still available with rule-based analysis.</p>
+            <p>Advanced AI explanations are currently unavailable. Validation results are still available.</p>
             <p><strong>💡 Tip:</strong> Check your OpenAI API key configuration to enable AI-powered explanations.</p>
         </div>
         """, unsafe_allow_html=True)

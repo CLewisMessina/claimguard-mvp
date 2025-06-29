@@ -1,8 +1,8 @@
-# src/ui_components
-
+# src/ui_components.py
 """
-ClaimGuard UI Components
+ClaimGuard UI Components - STREAMLINED VERSION
 Enhanced interface elements for professional healthcare application
+Focus on business value, performance clutter removed
 """
 
 import streamlit as st
@@ -18,8 +18,8 @@ def render_claim_summary_card(claim_data: Dict, validation_results: List) -> Non
     # Determine overall status
     if not validation_results:
         status = "✅ VALID"
-        status_color = "#10b981"
-        bg_color = "#d1fae5"
+        status_color = "#7ed321"  # Machinify green
+        bg_color = "#f0fdf4"
     else:
         high_severity = any(r.severity == "HIGH" for r in validation_results)
         if high_severity:
@@ -28,7 +28,7 @@ def render_claim_summary_card(claim_data: Dict, validation_results: List) -> Non
             bg_color = "#fee2e2"
         else:
             status = "⚠️ REVIEW"
-            status_color = "#d97706"
+            status_color = "#f59e0b"
             bg_color = "#fef3c7"
     
     # Create claim card
@@ -54,7 +54,7 @@ def render_claim_summary_card(claim_data: Dict, validation_results: List) -> Non
     """, unsafe_allow_html=True)
 
 def render_processing_progress(current_step: int, total_steps: int, step_name: str) -> None:
-    """Render a progress bar for validation processing"""
+    """Render simplified progress bar for validation processing"""
     
     progress_percent = current_step / total_steps
     
@@ -68,27 +68,27 @@ def render_processing_progress(current_step: int, total_steps: int, step_name: s
             overflow: hidden;
         ">
             <div style="
-                background: linear-gradient(90deg, #3b82f6, #8b5cf6); 
+                background: linear-gradient(90deg, #7ed321, #6bb91a); 
                 height: 100%; 
                 width: {progress_percent * 100}%; 
                 transition: width 0.3s ease;
             "></div>
         </div>
-        <p style="margin-top: 0.5rem; color: #64748b;">
+        <p style="margin-top: 0.5rem; color: #667085;">
             Step {current_step} of {total_steps} ({progress_percent:.0%} complete)
         </p>
     </div>
     """, unsafe_allow_html=True)
 
 def render_kpi_dashboard(validation_results: Dict) -> None:
-    """Render enhanced KPI dashboard with business metrics"""
+    """Render streamlined KPI dashboard focused on business value"""
     
     if not validation_results:
         return
     
     summary = validation_results['summary']
     
-    st.markdown("### 📊 Key Performance Indicators")
+    st.markdown("### 📊 Validation Results Overview")
     
     # Calculate business impact metrics
     total_claims = summary['total_claims']
@@ -97,56 +97,94 @@ def render_kpi_dashboard(validation_results: Dict) -> None:
     
     # Estimated cost savings (rough calculation for demo)
     avg_claim_value = 1000  # Average claim value assumption
-    potential_savings = error_claims * avg_claim_value * 0.1  # 10% average overpayment
+    potential_savings = error_claims * avg_claim_value * 0.15  # 15% average overpayment prevention
     
-    # Create enhanced metrics
-    col1, col2, col3, col4, col5 = st.columns(5)
+    # Create streamlined business-focused metrics
+    col1, col2, col3, col4 = st.columns(4)
     
     with col1:
         st.metric(
-            label="📋 Total Claims",
+            label="📋 Claims Analyzed",
             value=f"{total_claims:,}",
-            help="Total number of claims processed"
+            help="Total number of claims processed for validation"
         )
     
     with col2:
         st.metric(
-            label="🚨 Flagged Claims", 
+            label="🚨 Errors Detected", 
             value=f"{error_claims:,}",
             delta=f"{error_rate:.1f}% error rate",
-            delta_color="inverse"
+            delta_color="inverse",
+            help="Claims flagged for manual review or rejection"
         )
     
     with col3:
-        processing_speed = total_claims / max(summary['processing_time_seconds'], 0.001)
-        st.metric(
-            label="⚡ Processing Speed",
-            value=f"{processing_speed:.0f}/sec",
-            help="Claims processed per second"
-        )
-    
-    with col4:
         st.metric(
             label="💰 Potential Savings",
             value=f"${potential_savings:,.0f}",
-            help="Estimated cost savings from error prevention"
+            help="Estimated cost savings from preventing overpayments"
         )
     
-    with col5:
-        confidence_avg = 0.9  # Average confidence from validation results
+    with col4:
+        processing_time = summary['processing_time_seconds']
         st.metric(
-            label="🎯 Accuracy",
-            value=f"{confidence_avg:.0%}",
-            help="Average validation confidence score"
+            label="⚡ Processing Time",
+            value=f"{processing_time:.1f}s",
+            delta="Real-time analysis",
+            help="Total time to analyze all claims with AI"
+        )
+
+def render_simplified_ai_summary(ai_explanations: Dict[str, Any]):
+    """Render simplified AI analysis summary focused on business value"""
+    if not ai_explanations:
+        return
+    
+    st.markdown("### 🤖 AI Analysis Summary")
+    
+    # Calculate AI analysis metrics
+    total_analyses = len(ai_explanations)
+    risk_levels = [exp.risk_level for exp in ai_explanations.values()]
+    avg_confidence = sum(exp.confidence for exp in ai_explanations.values()) / total_analyses
+    
+    risk_counts = {
+        'HIGH': risk_levels.count('HIGH'),
+        'MEDIUM': risk_levels.count('MEDIUM'),
+        'LOW': risk_levels.count('LOW')
+    }
+    
+    # Simple business-focused metrics
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.metric(
+            label="🧠 AI Analyses Generated",
+            value=f"{total_analyses}",
+            help="Number of detailed AI explanations provided"
+        )
+    
+    with col2:
+        st.metric(
+            label="🚨 High Risk Claims",
+            value=f"{risk_counts['HIGH']}",
+            delta=f"{(risk_counts['HIGH']/total_analyses*100):.0f}% of analyzed",
+            delta_color="inverse",
+            help="Claims requiring immediate attention"
+        )
+    
+    with col3:
+        st.metric(
+            label="🎯 AI Confidence",
+            value=f"{avg_confidence:.0%}",
+            help="Average confidence in AI analysis accuracy"
         )
 
 def render_error_trend_chart(validation_results: Dict) -> None:
-    """Render error trend analysis chart"""
+    """Render simplified error trend analysis chart"""
     
     if not validation_results or not validation_results['validation_results']:
         return
     
-    st.markdown("### 📈 Error Analysis Trends")
+    st.markdown("### 📈 Error Analysis")
     
     # Prepare data for visualization
     error_data = []
@@ -166,32 +204,35 @@ def render_error_trend_chart(validation_results: Dict) -> None:
     col1, col2 = st.columns(2)
     
     with col1:
-        # Error distribution by type and severity
-        fig_sunburst = px.sunburst(
-            df_errors,
-            path=['Error_Type', 'Severity'],
-            title="Error Distribution (Type → Severity)",
-            color='Confidence',
-            color_continuous_scale='RdYlBu_r'
+        # Error distribution by type
+        error_counts = df_errors['Error_Type'].value_counts()
+        fig_bar = px.bar(
+            x=error_counts.index,
+            y=error_counts.values,
+            title="Errors by Type",
+            color=error_counts.values,
+            color_continuous_scale=[[0, '#7ed321'], [0.5, '#f59e0b'], [1, '#dc2626']]
         )
-        fig_sunburst.update_layout(height=400)
-        st.plotly_chart(fig_sunburst, use_container_width=True)
+        fig_bar.update_layout(
+            height=400,
+            xaxis_title="Error Type",
+            yaxis_title="Number of Claims",
+            showlegend=False
+        )
+        st.plotly_chart(fig_bar, use_container_width=True)
     
     with col2:
-        # Confidence distribution
-        fig_confidence = px.histogram(
-            df_errors,
-            x='Confidence',
-            title="Validation Confidence Distribution",
-            nbins=10,
-            color_discrete_sequence=['#3b82f6']
+        # Severity distribution
+        severity_counts = df_errors['Severity'].value_counts()
+        fig_pie = px.pie(
+            values=severity_counts.values,
+            names=severity_counts.index,
+            title="Error Severity Distribution",
+            color=severity_counts.index,
+            color_discrete_map={'HIGH': '#dc2626', 'MEDIUM': '#f59e0b', 'LOW': '#7ed321'}
         )
-        fig_confidence.update_layout(
-            height=400,
-            xaxis_title="Confidence Score",
-            yaxis_title="Number of Errors"
-        )
-        st.plotly_chart(fig_confidence, use_container_width=True)
+        fig_pie.update_layout(height=400)
+        st.plotly_chart(fig_pie, use_container_width=True)
 
 def render_claim_details_table(uploaded_data: pd.DataFrame, validation_results: Dict) -> None:
     """Render interactive table with claim details and validation status"""
@@ -307,7 +348,7 @@ def render_claim_details_table(uploaded_data: pd.DataFrame, validation_results: 
     st.markdown(f"**Showing {len(filtered_df)} of {len(display_df)} claims**")
 
 def render_business_impact_summary(validation_results: Dict, uploaded_data: pd.DataFrame) -> None:
-    """Render business impact analysis summary"""
+    """Render business impact analysis with Machinify styling"""
     
     if not validation_results or uploaded_data is None:
         return
@@ -329,13 +370,7 @@ def render_business_impact_summary(validation_results: Dict, uploaded_data: pd.D
     
     with col1:
         st.markdown(f"""
-        <div style="
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin: 1rem 0;
-        ">
+        <div class="business-impact-card">
             <h3>💰 Financial Impact</h3>
             <p><strong>Total Claims Value:</strong> ${total_amount:,.2f}</p>
             <p><strong>Flagged Claims Value:</strong> ${flagged_amount:,.2f}</p>
@@ -348,25 +383,19 @@ def render_business_impact_summary(validation_results: Dict, uploaded_data: pd.D
     
     with col2:
         st.markdown(f"""
-        <div style="
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin: 1rem 0;
-        ">
-            <h3>📊 Operational Metrics</h3>
+        <div class="operational-metrics-card">
+            <h3>📊 Operational Excellence</h3>
             <p><strong>Claims Processed:</strong> {len(uploaded_data):,}/hour</p>
             <p><strong>Error Detection Rate:</strong> {(len(flagged_claims)/len(uploaded_data)*100):.1f}%</p>
             <p><strong>Average Processing:</strong> {validation_results['summary']['processing_time_seconds']*1000:.0f}ms/claim</p>
             <p><strong>Manual Review Reduction:</strong> 85%</p>
-            <hr style="border-color: rgba(255,255,255,0.3);">
+            <hr style="border-color: rgba(126, 211, 33, 0.3);">
             <h4>Efficiency Gain: {(len(uploaded_data)/validation_results['summary']['processing_time_seconds']/60):.0f}x faster</h4>
         </div>
         """, unsafe_allow_html=True)
 
 def render_action_recommendations(validation_results: Dict) -> None:
-    """Render actionable recommendations based on validation results"""
+    """Render actionable recommendations with Machinify styling"""
     
     if not validation_results or not validation_results['validation_results']:
         return
@@ -388,13 +417,13 @@ def render_action_recommendations(validation_results: Dict) -> None:
         if result.severity == "HIGH":
             high_priority_claims.append(result.claim_id)
     
-    # Generate recommendations
+    # Generate recommendations with Machinify styling
     recommendations = []
     
     if "Gender-Procedure Mismatch" in error_types:
         count = error_types["Gender-Procedure Mismatch"]
         recommendations.append({
-            "priority": "HIGH",
+            "priority": "URGENT",
             "action": "Immediate Review Required",
             "description": f"Review {count} claims with gender-procedure mismatches for potential data entry errors or fraud.",
             "timeline": "Within 24 hours"
@@ -403,7 +432,7 @@ def render_action_recommendations(validation_results: Dict) -> None:
     if "Age-Procedure Mismatch" in error_types:
         count = error_types["Age-Procedure Mismatch"]
         recommendations.append({
-            "priority": "MEDIUM",
+            "priority": "HIGH",
             "action": "Medical Necessity Review",
             "description": f"Verify medical necessity for {count} age-inappropriate procedures.",
             "timeline": "Within 3 days"
@@ -426,54 +455,42 @@ def render_action_recommendations(validation_results: Dict) -> None:
             "timeline": "Immediate"
         })
     
-    # Display recommendations
+    # Display recommendations with Machinify styling
     for rec in recommendations:
-        priority_colors = {
-            "URGENT": {"bg": "#fee2e2", "border": "#dc2626", "icon": "🚨"},
-            "HIGH": {"bg": "#fef3c7", "border": "#d97706", "icon": "⚠️"},
-            "MEDIUM": {"bg": "#dbeafe", "border": "#2563eb", "icon": "ℹ️"}
-        }
+        priority_class = f"recommendation-{rec['priority'].lower()}"
         
-        color = priority_colors.get(rec["priority"], priority_colors["MEDIUM"])
+        if rec["priority"] == "URGENT":
+            icon = "🚨"
+        elif rec["priority"] == "HIGH":
+            icon = "⚠️"
+        else:
+            icon = "ℹ️"
         
         st.markdown(f"""
-        <div style="
-            background-color: {color['bg']};
-            border-left: 4px solid {color['border']};
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 5px;
-        ">
-            <h4>{color['icon']} {rec['action']} ({rec['priority']} Priority)</h4>
+        <div class="{priority_class}">
+            <h4>{icon} {rec['action']} ({rec['priority']} Priority)</h4>
             <p><strong>Description:</strong> {rec['description']}</p>
             <p><strong>Timeline:</strong> {rec['timeline']}</p>
         </div>
         """, unsafe_allow_html=True)
 
 def render_demo_mode_banner() -> None:
-    """Render demo mode banner for presentations"""
+    """Render demo mode banner with Machinify styling"""
     
     st.markdown("""
-    <div style="
-        background: linear-gradient(90deg, #8b5cf6, #3b82f6);
-        color: white;
-        padding: 0.5rem 1rem;
-        margin-bottom: 1rem;
-        border-radius: 5px;
-        text-align: center;
-    ">
-        <strong>🎯 DEMO MODE</strong> - ClaimGuard Healthcare Claims Validation System
+    <div class="demo-banner">
+        <strong>🎯 DEMO MODE</strong> - Healthcare Claims Validation System
     </div>
     """, unsafe_allow_html=True)
 
 def render_footer() -> None:
-    """Render application footer with additional information"""
+    """Render application footer with Machinify styling"""
     
     st.markdown("---")
     st.markdown("""
-    <div style="text-align: center; color: #64748b; padding: 1rem;">
+    <div class="footer">
         <p><strong>ClaimGuard</strong> - Pre-payment Healthcare Claims Validation</p>
-        <p>Powered by AI • Built for Healthcare Administrators • Designed for Accuracy</p>
+        <p>Built with Machinify-inspired design principles</p>
         <p><em>Preventing healthcare payment errors before they occur</em></p>
     </div>
     """, unsafe_allow_html=True)
