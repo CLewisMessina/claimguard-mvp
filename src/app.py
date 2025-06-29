@@ -499,7 +499,9 @@ def render_demo_mode_banner():
 
 def render_simple_processing_status(message: str):
     """Render simplified processing status with card"""
-    with ui.card(key="processing_status"):
+    # Use a unique key based on the message to avoid duplicates
+    key = f"processing_{hash(message) % 10000}"
+    with ui.card(key=key):
         st.markdown(f"### {message}")
         st.markdown("Processing your claims with AI-powered validation...")
         # Use standard Streamlit progress bar
