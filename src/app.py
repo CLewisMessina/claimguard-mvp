@@ -478,10 +478,13 @@ def load_custom_css():
     """, unsafe_allow_html=True)
 
 def render_header():
-    """Render the application header with updated branding"""
+    """Render the application header with Lucide icons and updated branding"""
     render_demo_mode_banner()
     st.markdown("""
     <h1 class="main-header">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; margin-right: 0.5rem; vertical-align: middle;">
+            <path d="M11 2a2 2 0 0 0-2 2v5H4a2 2 0 0 0-2 2v2c0 1.1.9 2 2 2h5v5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-5h5a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-5V4a2 2 0 0 0-2-2h-2z"/>
+        </svg>
         ClaimGuard
         <span class="tagline">DETECT. EXPLAIN. IMPROVE.</span>
     </h1>
@@ -489,10 +492,14 @@ def render_header():
     st.markdown('<p style="text-align: center; font-size: 1.2rem; color: #667085; margin-bottom: 2rem;">Pre-payment healthcare claims validation powered by advanced AI</p>', unsafe_allow_html=True)
 
 def render_demo_mode_banner():
-    """Render demo mode banner"""
+    """Render demo mode banner with Lucide icon"""
     st.markdown("""
     <div class="demo-banner">
-        <strong>🎯 DEMO MODE</strong> - Healthcare Claims Validation System
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; margin-right: 0.5rem; vertical-align: middle;">
+            <circle cx="12" cy="12" r="10"/>
+            <polygon points="10,8 16,12 10,16 10,8"/>
+        </svg>
+        <strong>DEMO MODE</strong> - Healthcare Claims Validation System
     </div>
     """, unsafe_allow_html=True)
 

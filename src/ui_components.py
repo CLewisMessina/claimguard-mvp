@@ -86,14 +86,24 @@ def render_processing_progress(current_step: int, total_steps: int, step_name: s
     """, unsafe_allow_html=True)
 
 def render_kpi_dashboard(validation_results: Dict) -> None:
-    """Render streamlined KPI dashboard focused on business value with modern icons"""
+    """Render streamlined KPI dashboard focused on business value with Lucide icons"""
     
     if not validation_results:
         return
     
     summary = validation_results['summary']
     
-    st.markdown("### 📊 Validation Results Overview")
+    # Modern section header with Lucide icon
+    st.markdown("""
+    <h3 style="display: flex; align-items: center; margin-bottom: 1rem;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem; color: var(--action-green);">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+        </svg>
+        Validation Results Overview
+    </h3>
+    """, unsafe_allow_html=True)
     
     # Calculate business impact metrics
     total_claims = summary['total_claims']
@@ -104,7 +114,7 @@ def render_kpi_dashboard(validation_results: Dict) -> None:
     avg_claim_value = 1000  # Average claim value assumption
     potential_savings = error_claims * avg_claim_value * 0.15  # 15% average overpayment prevention
     
-    # Create streamlined business-focused metrics with Lucide-style icons
+    # Create streamlined business-focused metrics with Lucide icons
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
@@ -140,11 +150,20 @@ def render_kpi_dashboard(validation_results: Dict) -> None:
         )
 
 def render_simplified_ai_summary(ai_explanations: Dict[str, Any]):
-    """Render simplified AI analysis summary focused on business value"""
+    """Render simplified AI analysis summary focused on business value with Lucide icons"""
     if not ai_explanations:
         return
     
-    st.markdown("### 🤖 AI Analysis Summary")
+    # Modern section header with Brain icon
+    st.markdown("""
+    <h3 style="display: flex; align-items: center; margin-bottom: 1rem;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem; color: var(--action-green);">
+            <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/>
+            <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/>
+        </svg>
+        AI Analysis Summary
+    </h3>
+    """, unsafe_allow_html=True)
     
     # Calculate AI analysis metrics
     total_analyses = len(ai_explanations)
@@ -184,12 +203,21 @@ def render_simplified_ai_summary(ai_explanations: Dict[str, Any]):
         )
 
 def render_error_trend_chart(validation_results: Dict) -> None:
-    """Render simplified error trend analysis chart with dark theme"""
+    """Render simplified error trend analysis chart with Lucide icon header"""
     
     if not validation_results or not validation_results['validation_results']:
         return
     
-    st.markdown("### 📈 Error Analysis")
+    # Modern section header with TrendingUp icon
+    st.markdown("""
+    <h3 style="display: flex; align-items: center; margin-bottom: 1rem;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem; color: var(--action-green);">
+            <polyline points="22,6 13.5,14.5 8.5,9.5 2,16"/>
+            <polyline points="16,6 22,6 22,12"/>
+        </svg>
+        Error Analysis
+    </h3>
+    """, unsafe_allow_html=True)
     
     # Prepare data for visualization
     error_data = []
@@ -258,12 +286,25 @@ def render_error_trend_chart(validation_results: Dict) -> None:
         st.plotly_chart(fig_pie, use_container_width=True)
 
 def render_claim_details_table(uploaded_data: pd.DataFrame, validation_results: Dict) -> None:
-    """Render interactive table with claim details and validation status"""
+    """Render interactive table with claim details and validation status with Lucide icons"""
     
     if uploaded_data is None or validation_results is None:
         return
     
-    st.markdown("### 📋 Detailed Claims Review")
+    # Modern section header with ClipboardList icon
+    st.markdown("""
+    <h3 style="display: flex; align-items: center; margin-bottom: 1rem;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem; color: var(--action-green);">
+            <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/>
+            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+            <path d="M12 11h4"/>
+            <path d="M12 16h4"/>
+            <path d="M8 11h.01"/>
+            <path d="M8 16h.01"/>
+        </svg>
+        Detailed Claims Review
+    </h3>
+    """, unsafe_allow_html=True)
     
     # Create enhanced dataframe with validation status
     enhanced_df = uploaded_data.copy()
@@ -371,12 +412,21 @@ def render_claim_details_table(uploaded_data: pd.DataFrame, validation_results: 
     st.markdown(f"**Showing {len(filtered_df)} of {len(display_df)} claims**")
 
 def render_business_impact_summary(validation_results: Dict, uploaded_data: pd.DataFrame) -> None:
-    """Render business impact analysis with dark theme styling"""
+    """Render business impact analysis with Lucide icon header"""
     
     if not validation_results or uploaded_data is None:
         return
     
-    st.markdown("### 💼 Business Impact Analysis")
+    # Modern section header with Briefcase icon
+    st.markdown("""
+    <h3 style="display: flex; align-items: center; margin-bottom: 1rem;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem; color: var(--action-green);">
+            <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+        </svg>
+        Business Impact Analysis
+    </h3>
+    """, unsafe_allow_html=True)
     
     # Calculate financial impact
     total_amount = uploaded_data['charge_amount'].sum()
@@ -418,12 +468,22 @@ def render_business_impact_summary(validation_results: Dict, uploaded_data: pd.D
         """, unsafe_allow_html=True)
 
 def render_action_recommendations(validation_results: Dict) -> None:
-    """Render actionable recommendations with dark theme styling"""
+    """Render actionable recommendations with Lucide icon header"""
     
     if not validation_results or not validation_results['validation_results']:
         return
     
-    st.markdown("### 🎯 Recommended Actions")
+    # Modern section header with Target icon
+    st.markdown("""
+    <h3 style="display: flex; align-items: center; margin-bottom: 1rem;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem; color: var(--action-green);">
+            <circle cx="12" cy="12" r="10"/>
+            <circle cx="12" cy="12" r="6"/>
+            <circle cx="12" cy="12" r="2"/>
+        </svg>
+        Recommended Actions
+    </h3>
+    """, unsafe_allow_html=True)
     
     # Analyze validation results for recommendations
     error_types = {}
