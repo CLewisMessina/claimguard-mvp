@@ -1,6 +1,6 @@
 # src/validation_ui.py
 """
-ClaimGuard - Validation Results UI Components
+ClaimGuard - Validation Results UI Components - DARK THEME
 Display validation results, duplicate errors, and export options
 """
 
@@ -12,7 +12,7 @@ from ai_ui_components import AIUIComponents
 from data_handlers import DataHandler
 
 class ValidationUI:
-    """UI components for displaying validation results"""
+    """UI components for displaying validation results with dark theme"""
     
     @staticmethod
     def render_validation_results(validation_results: Dict[str, Any], severity_filter: List[str], 
@@ -47,7 +47,14 @@ class ValidationUI:
             # Limit AI analysis for demo performance
             show_ai_analysis = enable_ai and i < max_ai_claims
             
-            with st.expander(f"📋 Claim {claim_id} - {len(claim_results)} Error(s) {'🤖 AI ANALYSIS' if show_ai_analysis else ''}", expanded=show_ai_analysis):
+            # Determine the primary severity for the expander
+            severities = [result.severity for result in claim_results]
+            primary_severity = "HIGH" if "HIGH" in severities else ("MEDIUM" if "MEDIUM" in severities else "LOW")
+            
+            # Icon based on severity
+            severity_icon = "🚨" if primary_severity == "HIGH" else ("⚠️" if primary_severity == "MEDIUM" else "ℹ️")
+            
+            with st.expander(f"{severity_icon} Claim {claim_id} - {len(claim_results)} Error(s) {'🤖 AI ANALYSIS' if show_ai_analysis else ''}", expanded=show_ai_analysis):
                 
                 for result in claim_results:
                     ValidationUI._render_single_validation_error(result)
@@ -62,7 +69,7 @@ class ValidationUI:
     
     @staticmethod
     def _render_single_validation_error(result):
-        """Render a single validation error"""
+        """Render a single validation error with dark theme styling"""
         # Determine styling based on severity
         if result.severity == "HIGH":
             css_class = "error-high"
@@ -85,7 +92,7 @@ class ValidationUI:
     
     @staticmethod
     def render_duplicate_errors(validation_results: Dict[str, Any]):
-        """Render duplicate service errors"""
+        """Render duplicate service errors with dark theme"""
         if not validation_results or not validation_results['duplicate_errors']:
             return
         
@@ -104,7 +111,7 @@ class ValidationUI:
     
     @staticmethod
     def render_export_options(validation_results: Dict[str, Any]):
-        """Render data export options"""
+        """Render data export options with dark theme"""
         if not validation_results:
             return
         
@@ -147,17 +154,18 @@ class ValidationUI:
     
     @staticmethod
     def render_welcome_screen():
-        """Render welcome screen when no data is loaded"""
+        """Render welcome screen when no data is loaded with dark theme"""
         st.markdown("### 👋 Welcome to ClaimGuard")
         st.markdown("""
         ClaimGuard helps healthcare organizations validate claims before payment using **advanced AI analysis**.
         
         **🚀 Enhanced AI Capabilities:**
-        1. 📁 Upload your claims CSV file using the sidebar
-        2. 🔍 Click "Validate Claims with AI Analysis" to run advanced validation
-        3. 🤖 Review AI-powered medical reasoning and business impact analysis
-        4. 📊 Export comprehensive validation reports with actionable insights
+        """)
         
+        # Render steps with modern styling
+        ValidationUI._render_welcome_steps()
+        
+        st.markdown("""
         **Or try our sample dataset** to see ClaimGuard's advanced AI in action!
         """)
         
@@ -165,8 +173,26 @@ class ValidationUI:
         ValidationUI._render_ai_features_info()
     
     @staticmethod
+    def _render_welcome_steps():
+        """Render welcome steps with modern icon styling"""
+        steps = [
+            ("📁", "Upload your claims CSV file using the sidebar"),
+            ("🔍", "Click \"Validate Claims with AI Analysis\" to run advanced validation"),
+            ("🤖", "Review AI-powered medical reasoning and business impact analysis"),
+            ("📊", "Export comprehensive validation reports with actionable insights")
+        ]
+        
+        for i, (icon, description) in enumerate(steps, 1):
+            st.markdown(f"""
+            <div class="welcome-step">
+                <span class="step-icon">{icon}</span>
+                <span>{i}. {description}</span>
+            </div>
+            """, unsafe_allow_html=True)
+    
+    @staticmethod
     def _render_csv_format_info():
-        """Render CSV format information"""
+        """Render CSV format information with dark theme"""
         with st.expander("📋 Required CSV Format"):
             st.markdown("""
             Your CSV file should include these columns:
@@ -183,7 +209,7 @@ class ValidationUI:
     
     @staticmethod
     def _render_ai_features_info():
-        """Render AI capabilities information"""
+        """Render AI capabilities information with dark theme"""
         with st.expander("🤖 AI Analysis Features"):
             st.markdown("""
             **Advanced AI provides:**

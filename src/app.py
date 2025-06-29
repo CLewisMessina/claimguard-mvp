@@ -32,52 +32,59 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Load CSS styling (streamlined version)
+# Load updated CSS with dark theme and Lucide icons
 def load_custom_css():
-    """Load streamlined CSS focused on business value presentation"""
+    """Load updated CSS with Machinify-inspired dark theme and modern icons"""
     st.markdown("""
     <style>
         /* Import Satoshi Font */
         @import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap');
         
-        /* Machinify Brand Colors */
+        /* Machinify Dark Theme Colors */
         :root {
-            --machinify-dark-navy: #2a3f47;
-            --machinify-bright-green: #7ed321;
-            --machinify-white: #ffffff;
-            --machinify-light-gray: #f5f5f5;
-            --machinify-medium-gray: #e8e8e8;
-            --machinify-dark-text: #2a3f47;
-            --machinify-secondary-text: #667085;
+            --primary-dark: #283B45;
+            --secondary-dark: #0C1F28;
+            --accent-dark: #081D27;
+            --light-accent: #E2EAEF;
+            --action-green: #7ed321;
+            --success-green: #10b981;
             
             --error-red: #dc2626;
             --warning-orange: #f59e0b;
-            --success-green: var(--machinify-bright-green);
             --info-blue: #2563eb;
             
             --font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         
-        /* Global Styles */
+        /* Global Dark Theme */
         .stApp {
             font-family: var(--font-family);
+            background-color: var(--light-accent);
+            color: var(--primary-dark);
         }
         
-        /* Main Header */
+        /* Main Content Background */
+        .main .block-container {
+            background-color: var(--light-accent);
+            padding-top: 1rem;
+        }
+        
+        /* Main Header - Dark with Light Text */
         .main-header {
-            background: linear-gradient(135deg, var(--machinify-dark-navy) 0%, #1a2a32 100%);
-            color: var(--machinify-white);
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
+            color: var(--light-accent);
             font-size: 2.5rem;
             text-align: center;
             padding: 2rem 0;
             margin-bottom: 2rem;
-            border-bottom: 4px solid var(--machinify-bright-green);
+            border-bottom: 4px solid var(--action-green);
             border-radius: 0 0 15px 15px;
+            font-weight: 700;
         }
         
-        .machinify-badge {
-            background: var(--machinify-bright-green);
-            color: var(--machinify-dark-navy);
+        .tagline {
+            background: var(--action-green);
+            color: var(--primary-dark);
             padding: 0.4rem 1rem;
             border-radius: 25px;
             font-weight: 700;
@@ -88,21 +95,22 @@ def load_custom_css():
             letter-spacing: 0.5px;
         }
         
-        /* Demo Banner */
+        /* Demo Banner - Dark Theme */
         .demo-banner {
-            background: linear-gradient(90deg, var(--machinify-dark-navy), var(--machinify-bright-green));
-            color: var(--machinify-white);
+            background: linear-gradient(90deg, var(--secondary-dark), var(--primary-dark));
+            color: var(--light-accent);
             padding: 0.8rem 1rem;
             margin-bottom: 1rem;
             border-radius: 8px;
             text-align: center;
             font-weight: 600;
+            border: 2px solid var(--action-green);
         }
         
-        /* Success Card */
+        /* Card Backgrounds - Dark */
         .success-card {
-            background: linear-gradient(135deg, var(--machinify-bright-green) 0%, #6bb91a 100%);
-            color: var(--machinify-white);
+            background: linear-gradient(135deg, var(--action-green) 0%, var(--success-green) 100%);
+            color: var(--primary-dark);
             border-left: 4px solid #5a9f18;
             padding: 1.5rem;
             margin: 1rem 0;
@@ -110,9 +118,10 @@ def load_custom_css():
             font-weight: 500;
         }
         
-        /* Error Severity Styling */
+        /* Error Cards with Dark Theme */
         .error-high {
-            background-color: #fee2e2;
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
+            color: var(--light-accent);
             border-left: 4px solid var(--error-red);
             padding: 1.5rem;
             margin: 0.5rem 0;
@@ -120,7 +129,8 @@ def load_custom_css():
         }
         
         .error-medium {
-            background-color: #fef3c7;
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
+            color: var(--light-accent);
             border-left: 4px solid var(--warning-orange);
             padding: 1.5rem;
             margin: 0.5rem 0;
@@ -128,26 +138,27 @@ def load_custom_css():
         }
         
         .error-low {
-            background-color: #dbeafe;
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
+            color: var(--light-accent);
             border-left: 4px solid var(--info-blue);
             padding: 1.5rem;
             margin: 0.5rem 0;
             border-radius: 8px;
         }
         
-        /* AI Analysis Container */
+        /* AI Analysis Container - Enhanced Dark */
         .ai-analysis-container {
-            background: linear-gradient(135deg, var(--machinify-dark-navy) 0%, #1a2a32 100%);
+            background: linear-gradient(135deg, var(--accent-dark) 0%, var(--secondary-dark) 100%);
             border-radius: 15px;
             padding: 2rem;
             margin: 1.5rem 0;
-            color: var(--machinify-white);
-            box-shadow: 0 8px 25px rgba(42, 63, 71, 0.2);
-            border: 2px solid var(--machinify-bright-green);
+            color: var(--light-accent);
+            box-shadow: 0 8px 25px rgba(8, 29, 39, 0.4);
+            border: 2px solid var(--action-green);
         }
         
         .ai-section {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(226, 234, 239, 0.1);
             border-radius: 10px;
             padding: 1.5rem;
             margin: 1rem 0;
@@ -156,16 +167,44 @@ def load_custom_css():
         }
         
         .ai-section h4 {
-            color: var(--machinify-bright-green);
+            color: var(--action-green);
             margin-bottom: 0.5rem;
             font-weight: 600;
             font-size: 1.1rem;
         }
         
         .ai-section p {
-            color: #f1f5f9;
+            color: var(--light-accent);
             line-height: 1.6;
             margin-bottom: 0;
+        }
+        
+        /* Business Impact Cards - Dark Theme */
+        .business-impact-card {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
+            color: var(--light-accent);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            box-shadow: 0 8px 25px rgba(40, 59, 69, 0.3);
+            border: 2px solid var(--action-green);
+        }
+        
+        .operational-metrics-card {
+            background: linear-gradient(135deg, var(--accent-dark) 0%, var(--secondary-dark) 100%);
+            color: var(--light-accent);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            box-shadow: 0 8px 25px rgba(8, 29, 39, 0.3);
+            border: 2px solid var(--action-green);
+        }
+        
+        .business-impact-card h3, .operational-metrics-card h3 {
+            margin-top: 0;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--action-green);
         }
         
         /* Risk Indicators */
@@ -191,14 +230,14 @@ def load_custom_css():
         }
         
         .risk-low {
-            background-color: var(--machinify-bright-green);
-            color: var(--machinify-dark-navy);
+            background-color: var(--action-green);
+            color: var(--primary-dark);
         }
         
         /* Confidence Badge */
         .confidence-badge {
-            background: var(--machinify-bright-green);
-            color: var(--machinify-dark-navy);
+            background: var(--action-green);
+            color: var(--primary-dark);
             padding: 0.4rem 1.2rem;
             border-radius: 25px;
             font-weight: 700;
@@ -209,8 +248,8 @@ def load_custom_css():
         
         /* AI Powered Banner */
         .ai-powered-banner {
-            background: linear-gradient(90deg, var(--machinify-bright-green), var(--machinify-dark-navy));
-            color: var(--machinify-white);
+            background: linear-gradient(90deg, var(--action-green), var(--primary-dark));
+            color: var(--light-accent);
             padding: 0.8rem;
             border-radius: 8px;
             text-align: center;
@@ -218,55 +257,26 @@ def load_custom_css():
             font-weight: 600;
         }
         
-        /* Business Impact Cards */
-        .business-impact-card {
-            background: linear-gradient(135deg, var(--machinify-bright-green) 0%, #6bb91a 100%);
-            color: var(--machinify-white);
-            padding: 2rem;
-            border-radius: 12px;
-            margin: 1rem 0;
-            box-shadow: 0 8px 25px rgba(126, 211, 33, 0.2);
-        }
-        
-        .operational-metrics-card {
-            background: linear-gradient(135deg, var(--machinify-dark-navy) 0%, #1a2a32 100%);
-            color: var(--machinify-white);
-            padding: 2rem;
-            border-radius: 12px;
-            margin: 1rem 0;
-            box-shadow: 0 8px 25px rgba(42, 63, 71, 0.2);
-            border: 2px solid var(--machinify-bright-green);
-        }
-        
-        .business-impact-card h3, .operational-metrics-card h3 {
-            margin-top: 0;
-            font-weight: 700;
-            font-size: 1.3rem;
-        }
-        
-        .operational-metrics-card h3 {
-            color: var(--machinify-bright-green);
-        }
-        
-        /* Sidebar Styling */
+        /* Sidebar Styling - Dark Theme */
         .sidebar-info {
-            background: var(--machinify-light-gray);
-            border: 2px solid var(--machinify-medium-gray);
+            background: var(--primary-dark);
+            border: 2px solid var(--action-green);
+            color: var(--light-accent);
             padding: 1.5rem;
             border-radius: 10px;
             margin: 1rem 0;
         }
         
         .sidebar-info h3 {
-            color: var(--machinify-dark-navy);
+            color: var(--action-green);
             margin-top: 0;
             font-weight: 700;
         }
         
         /* Button Styling */
         .stButton > button {
-            background: var(--machinify-bright-green) !important;
-            color: var(--machinify-dark-navy) !important;
+            background: var(--action-green) !important;
+            color: var(--primary-dark) !important;
             border: none !important;
             border-radius: 8px !important;
             font-weight: 600 !important;
@@ -276,48 +286,61 @@ def load_custom_css():
         }
         
         .stButton > button:hover {
-            background: #6bb91a !important;
+            background: var(--success-green) !important;
             transform: translateY(-1px) !important;
             box-shadow: 0 4px 12px rgba(126, 211, 33, 0.3) !important;
         }
         
         /* Secondary Button */
         .stButton > button[kind="secondary"] {
-            background: var(--machinify-dark-navy) !important;
-            color: var(--machinify-white) !important;
-            border: 2px solid var(--machinify-bright-green) !important;
+            background: var(--primary-dark) !important;
+            color: var(--light-accent) !important;
+            border: 2px solid var(--action-green) !important;
         }
         
-        /* Streamlit Metrics */
+        /* Streamlit Metrics - Dark Theme */
         [data-testid="metric-container"] {
-            background: var(--machinify-white);
-            border: 2px solid var(--machinify-medium-gray);
+            background: var(--primary-dark);
+            border: 2px solid var(--action-green);
             border-radius: 10px;
             padding: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(8, 29, 39, 0.2);
             transition: all 0.3s ease;
         }
         
         [data-testid="metric-container"]:hover {
-            border-color: var(--machinify-bright-green);
-            box-shadow: 0 4px 12px rgba(126, 211, 33, 0.1);
+            border-color: var(--action-green);
+            box-shadow: 0 4px 12px rgba(126, 211, 33, 0.2);
+            transform: translateY(-1px);
         }
         
-        /* File Uploader */
+        [data-testid="metric-container"] label {
+            color: var(--light-accent) !important;
+            font-weight: 600 !important;
+        }
+        
+        [data-testid="metric-container"] [data-testid="metric-value"] {
+            color: var(--action-green) !important;
+            font-weight: 700 !important;
+        }
+        
+        /* File Uploader - Dark Theme */
         .stFileUploader > div {
-            background-color: var(--machinify-light-gray);
-            border: 2px dashed var(--machinify-bright-green);
+            background-color: var(--primary-dark);
+            border: 2px dashed var(--action-green);
+            color: var(--light-accent);
             border-radius: 10px;
         }
         
         /* Progress Bar */
         .stProgress > div > div > div {
-            background: linear-gradient(90deg, var(--machinify-bright-green), #6bb91a) !important;
+            background: linear-gradient(90deg, var(--action-green), var(--success-green)) !important;
         }
         
-        /* Recommendations */
+        /* Recommendations - Dark Theme */
         .recommendation-high {
-            background-color: #fee2e2;
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
+            color: var(--light-accent);
             border-left: 4px solid var(--error-red);
             padding: 1.5rem;
             margin: 1rem 0;
@@ -325,7 +348,8 @@ def load_custom_css():
         }
         
         .recommendation-medium {
-            background-color: #fef3c7;
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
+            color: var(--light-accent);
             border-left: 4px solid var(--warning-orange);
             padding: 1.5rem;
             margin: 1rem 0;
@@ -343,8 +367,9 @@ def load_custom_css():
         
         /* Fraud Indicators */
         .fraud-indicators {
-            background: rgba(220, 38, 38, 0.1);
-            border: 2px solid rgba(220, 38, 38, 0.3);
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
+            border: 2px solid rgba(220, 38, 38, 0.6);
+            color: var(--light-accent);
             border-radius: 10px;
             padding: 1.5rem;
             margin: 1rem 0;
@@ -356,28 +381,54 @@ def load_custom_css():
             font-weight: 600;
         }
         
-        /* Footer */
+        /* Footer - Dark Theme */
         .footer {
-            background: var(--machinify-dark-navy);
-            color: var(--machinify-white);
+            background: var(--accent-dark);
+            color: var(--light-accent);
             text-align: center;
             padding: 2rem;
             margin-top: 3rem;
             border-radius: 15px 15px 0 0;
+            border-top: 4px solid var(--action-green);
         }
         
         .footer strong {
-            color: var(--machinify-bright-green);
+            color: var(--action-green);
         }
         
-        /* Processing Progress - SIMPLIFIED */
+        /* Processing Progress - Dark Theme */
         .processing-progress-simple {
-            background: var(--machinify-light-gray);
-            border: 2px solid var(--machinify-bright-green);
+            background: var(--primary-dark);
+            border: 2px solid var(--action-green);
+            color: var(--light-accent);
             border-radius: 10px;
             padding: 1rem;
             margin: 1rem 0;
             text-align: center;
+        }
+        
+        /* Welcome Screen Icons with Lucide Style */
+        .welcome-step {
+            display: flex;
+            align-items: center;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: background-color 0.2s ease;
+        }
+        
+        .welcome-step:hover {
+            background-color: rgba(126, 211, 33, 0.1);
+        }
+        
+        .step-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            margin-right: 0.5rem;
+            color: var(--action-green);
         }
         
         /* Responsive Design */
@@ -387,7 +438,7 @@ def load_custom_css():
                 padding: 1.5rem 0;
             }
             
-            .machinify-badge {
+            .tagline {
                 display: block;
                 margin: 0.5rem auto 0;
                 width: fit-content;
@@ -397,16 +448,36 @@ def load_custom_css():
                 padding: 1rem;
             }
         }
+        
+        /* Dataframe Styling */
+        .stDataFrame {
+            background-color: var(--primary-dark);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        /* Expander Styling */
+        .streamlit-expanderHeader {
+            background-color: var(--primary-dark) !important;
+            color: var(--light-accent) !important;
+            border-radius: 8px !important;
+        }
+        
+        .streamlit-expanderContent {
+            background-color: var(--primary-dark) !important;
+            color: var(--light-accent) !important;
+            border-radius: 0 0 8px 8px !important;
+        }
     </style>
     """, unsafe_allow_html=True)
 
 def render_header():
-    """Render the application header with Machinify branding"""
+    """Render the application header with updated branding"""
     render_demo_mode_banner()
     st.markdown("""
     <h1 class="main-header">
-        🏥 ClaimGuard
-        <span class="machinify-badge">MACHINIFY INSPIRED</span>
+        ClaimGuard
+        <span class="tagline">DETECT. EXPLAIN. IMPROVE.</span>
     </h1>
     """, unsafe_allow_html=True)
     st.markdown('<p style="text-align: center; font-size: 1.2rem; color: #667085; margin-bottom: 2rem;">Pre-payment healthcare claims validation powered by advanced AI</p>', unsafe_allow_html=True)
@@ -571,7 +642,7 @@ def render_footer():
     st.markdown("""
     <div class="footer">
         <p><strong>ClaimGuard</strong> - Pre-payment Healthcare Claims Validation</p>
-        <p>Built with Machinify-inspired design principles</p>
+        <p>Detect. Explain. Improve.</p>
         <p><em>Preventing healthcare payment errors before they occur</em></p>
     </div>
     """, unsafe_allow_html=True)

@@ -1,7 +1,7 @@
-# src/ai_ui_components.py - STREAMLINED VERSION
+# src/ai_ui_components.py - DARK THEME VERSION
 """
-ClaimGuard - Streamlined AI UI Components
-Focus on business value, remove performance monitoring clutter
+ClaimGuard - AI UI Components with Dark Theme
+Focus on business value with modern dark styling
 """
 
 import streamlit as st
@@ -10,11 +10,11 @@ from typing import Dict, Any
 from ai_explainer import ExplanationResult
 
 class AIUIComponents:
-    """Streamlined UI components for displaying AI analysis results"""
+    """AI UI components optimized for dark theme and business value"""
     
     @staticmethod
     def render_enhanced_ai_explanation(explanation: ExplanationResult):
-        """Render AI explanation focused on business value"""
+        """Render AI explanation focused on business value with dark theme"""
         
         # AI-powered banner
         st.markdown("""
@@ -83,7 +83,7 @@ class AIUIComponents:
     
     @staticmethod
     def _render_fraud_indicators(fraud_indicators: list):
-        """Render fraud risk indicators"""
+        """Render fraud risk indicators with dark theme"""
         st.markdown("""
         <div class="fraud-indicators">
             <h5>🔍 Fraud Risk Indicators</h5>
@@ -97,7 +97,7 @@ class AIUIComponents:
     
     @staticmethod
     def render_ai_summary_dashboard(ai_explanations: Dict[str, ExplanationResult]):
-        """Render streamlined AI analysis summary focused on business value"""
+        """Render AI analysis summary focused on business value with dark theme"""
         if not ai_explanations:
             return
         
@@ -114,7 +114,7 @@ class AIUIComponents:
             'LOW': risk_levels.count('LOW')
         }
         
-        # Streamlined business-focused metrics
+        # Business-focused metrics
         col1, col2, col3, col4 = st.columns(4)
         
         with col1:
@@ -148,13 +148,13 @@ class AIUIComponents:
                 help="Total fraud risk indicators identified"
             )
         
-        # Simple risk distribution chart (removed complex analytics)
+        # Simple risk distribution chart
         if risk_counts:
             AIUIComponents._render_simple_risk_chart(risk_counts)
     
     @staticmethod
     def _render_simple_risk_chart(risk_counts: dict):
-        """Render simplified risk distribution chart"""
+        """Render simplified risk distribution chart with dark theme"""
         col1, col2 = st.columns([1, 1])
         
         with col1:
@@ -166,11 +166,21 @@ class AIUIComponents:
                 color=list(risk_counts.keys()),
                 color_discrete_map={'HIGH': '#dc2626', 'MEDIUM': '#d97706', 'LOW': '#10b981'}
             )
-            fig_risk.update_layout(height=300, showlegend=True)
+            
+            # Dark theme styling
+            fig_risk.update_layout(
+                height=300, 
+                showlegend=True,
+                plot_bgcolor='rgba(0,0,0,0)',
+                paper_bgcolor='rgba(0,0,0,0)',
+                font_color='#E2EAEF',
+                title_font_color='#E2EAEF'
+            )
+            
             st.plotly_chart(fig_risk, use_container_width=True)
         
         with col2:
-            # Simple risk summary
+            # Simple risk summary with dark theme
             st.markdown("#### Risk Summary")
             for risk_level, count in risk_counts.items():
                 percentage = (count / sum(risk_counts.values()) * 100)
@@ -179,42 +189,52 @@ class AIUIComponents:
     
     @staticmethod
     def render_simple_processing_status(current_claim: int, total_claims: int, claim_id: str):
-        """Render simplified processing status"""
+        """Render simplified processing status with dark theme"""
         progress = current_claim / total_claims if total_claims > 0 else 0
         
         st.markdown(f"""
-        <div style="margin: 1rem 0; text-align: center;">
+        <div style="
+            margin: 1rem 0; 
+            text-align: center;
+            background: var(--primary-dark);
+            border: 2px solid var(--action-green);
+            border-radius: 10px;
+            padding: 1.5rem;
+            color: var(--light-accent);
+        ">
             <h4>🤖 Generating AI Analysis</h4>
             <p>Processing claim {claim_id} ({current_claim} of {total_claims})</p>
             <div style="
-                background-color: #e5e7eb; 
+                background-color: var(--secondary-dark); 
                 border-radius: 10px; 
                 height: 20px; 
                 overflow: hidden;
                 margin: 1rem 0;
+                border: 1px solid var(--action-green);
             ">
                 <div style="
-                    background: linear-gradient(90deg, #7ed321, #6bb91a); 
+                    background: linear-gradient(90deg, var(--action-green), #6bb91a); 
                     height: 100%; 
                     width: {progress * 100}%; 
                     transition: width 0.3s ease;
                 "></div>
             </div>
-            <p style="color: #667085;">{progress:.0%} complete</p>
+            <p style="color: var(--light-accent);">{progress:.0%} complete</p>
         </div>
         """, unsafe_allow_html=True)
     
     @staticmethod
     def render_ai_unavailable_message():
-        """Render message when AI analysis is unavailable"""
+        """Render message when AI analysis is unavailable with dark theme"""
         st.markdown("""
         <div style="
-            background: linear-gradient(135deg, #f59e0b, #d97706);
+            background: linear-gradient(135deg, var(--warning-orange), #d97706);
             color: white;
             padding: 1rem;
             border-radius: 10px;
             margin: 1rem 0;
             text-align: center;
+            border: 2px solid var(--action-green);
         ">
             <h4>⚠️ AI Analysis Temporarily Unavailable</h4>
             <p>Advanced AI explanations are currently unavailable. Validation results are still available.</p>

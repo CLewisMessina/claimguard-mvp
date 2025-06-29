@@ -1,7 +1,7 @@
 # src/sidebar_controls.py
 """
-ClaimGuard - Streamlined Sidebar Controls
-Focus on core functionality without performance monitoring clutter
+ClaimGuard - Streamlined Sidebar Controls - DARK THEME
+Focus on core functionality with modern dark theme styling
 """
 
 import streamlit as st
@@ -91,7 +91,7 @@ class SidebarControls:
     
     @staticmethod
     def _render_streamlined_info_panels():
-        """Render streamlined information panels"""
+        """Render streamlined information panels with dark theme"""
         # Core value proposition panel
         st.markdown('<div class="sidebar-info">', unsafe_allow_html=True)
         st.markdown("### 🎯 Core Value")
@@ -115,6 +115,19 @@ class SidebarControls:
         - Regulatory concerns
         - Actionable next steps
         - Fraud risk assessment
+        """)
+        st.markdown('</div>', unsafe_allow_html=True)
+        
+        # Healthcare platform panel
+        st.markdown('<div class="sidebar-info">', unsafe_allow_html=True)
+        st.markdown("### 🏥 Platform Benefits")
+        st.markdown("""
+        **Enterprise Healthcare AI:**
+        - Pre-payment validation
+        - Real-time error detection
+        - Compliance monitoring
+        - Cost savings optimization
+        - Workflow automation
         """)
         st.markdown('</div>', unsafe_allow_html=True)
     
