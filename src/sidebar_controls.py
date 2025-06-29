@@ -1,20 +1,19 @@
 # src/sidebar_controls.py
 """
-ClaimGuard - Streamlined Sidebar Controls - SHADCN INTEGRATION
-Focus on core functionality with modern shadcn/ui components
+ClaimGuard - Streamlined Sidebar Controls - DARK THEME
+Focus on core functionality with modern dark theme styling
 """
 
 import streamlit as st
-import streamlit_shadcn_ui as ui
 from typing import Tuple
 from data_handlers import DataHandler
 
 class SidebarControls:
-    """Manages streamlined sidebar controls with shadcn styling"""
+    """Manages streamlined sidebar controls focused on business functionality"""
     
     @staticmethod
     def render_sidebar() -> Tuple[bool, list, str, int]:
-        """Render streamlined sidebar with shadcn components"""
+        """Render streamlined sidebar with core controls only"""
         with st.sidebar:
             st.markdown("### 📋 ClaimGuard Controls")
             
@@ -43,28 +42,20 @@ class SidebarControls:
     
     @staticmethod
     def _render_sample_data_section():
-        """Render sample data loading section with shadcn button"""
+        """Render sample data loading section"""
         st.markdown("#### 🧪 Or Use Sample Data")
-        
-        sample_btn = ui.button(
-            text="📥 Load Sample Dataset",
-            variant="outline",
-            key="load_sample_btn"
-        )
-        
-        if sample_btn:
+        if st.button("📥 Load Sample Dataset", type="secondary"):
             DataHandler.load_sample_dataset()
     
     @staticmethod
     def _render_simplified_ai_settings() -> Tuple[bool, str, int]:
-        """Render simplified AI analysis settings with shadcn components"""
+        """Render simplified AI analysis settings"""
         st.markdown("#### ⚙️ AI Analysis Settings")
         
-        # Use shadcn checkbox for AI enable/disable
-        enable_ai_explanations = ui.checkbox(
-            label="🤖 Generate AI Explanations",
-            default=True,
-            key="ai_enable_checkbox"
+        enable_ai_explanations = st.checkbox(
+            "🤖 Generate AI Explanations", 
+            value=True,
+            help="Use advanced AI to generate detailed medical and business analysis"
         )
         
         ai_analysis_depth = st.selectbox(
@@ -100,64 +91,61 @@ class SidebarControls:
     
     @staticmethod
     def _render_streamlined_info_panels():
-        """Render streamlined information panels with shadcn cards"""
-        
+        """Render streamlined information panels with dark theme"""
         # Core value proposition panel
-        with ui.card(key="sidebar_value_card"):
-            st.markdown("### 🎯 Core Value")
-            st.markdown("""
-            **ClaimGuard prevents:**
-            - Gender-procedure mismatches
-            - Age-inappropriate procedures  
-            - Anatomical logic errors
-            - Duplicate billing
-            - Severity mismatches
-            """)
+        st.markdown('<div class="sidebar-info">', unsafe_allow_html=True)
+        st.markdown("### 🎯 Core Value")
+        st.markdown("""
+        **ClaimGuard prevents:**
+        - Gender-procedure mismatches
+        - Age-inappropriate procedures  
+        - Anatomical logic errors
+        - Duplicate billing
+        - Severity mismatches
+        """)
+        st.markdown('</div>', unsafe_allow_html=True)
         
-        # AI capabilities panel
-        with ui.card(key="sidebar_ai_card"):
-            st.markdown("### 🤖 AI Features")
-            st.markdown("""
-            **AI-Powered Analysis:**
-            - Medical reasoning
-            - Financial impact
-            - Regulatory concerns
-            - Actionable next steps
-            - Fraud risk assessment
-            """)
+        # AI capabilities panel (simplified)
+        st.markdown('<div class="sidebar-info">', unsafe_allow_html=True)
+        st.markdown("### 🤖 AI Features")
+        st.markdown("""
+        **AI-Powered Analysis:**
+        - Medical reasoning
+        - Financial impact
+        - Regulatory concerns
+        - Actionable next steps
+        - Fraud risk assessment
+        """)
+        st.markdown('</div>', unsafe_allow_html=True)
         
         # Healthcare platform panel
-        with ui.card(key="sidebar_platform_card"):
-            st.markdown("### 🏥 Platform Benefits")
-            st.markdown("""
-            **Enterprise Healthcare AI:**
-            - Pre-payment validation
-            - Real-time error detection
-            - Compliance monitoring
-            - Cost savings optimization
-            - Workflow automation
-            """)
+        st.markdown('<div class="sidebar-info">', unsafe_allow_html=True)
+        st.markdown("### 🏥 Platform Benefits")
+        st.markdown("""
+        **Enterprise Healthcare AI:**
+        - Pre-payment validation
+        - Real-time error detection
+        - Compliance monitoring
+        - Cost savings optimization
+        - Workflow automation
+        """)
+        st.markdown('</div>', unsafe_allow_html=True)
     
     @staticmethod
     def render_processing_controls():
-        """Render processing control buttons with shadcn styling"""
+        """Render streamlined processing control buttons"""
         col1, col2 = st.columns([3, 1])
         
         with col1:
-            validate_button = ui.button(
-                text="🔍 Validate Claims with AI",
-                variant="default",
-                key="validate_claims_btn"
+            validate_button = st.button(
+                "🔍 Validate Claims with AI", 
+                type="primary", 
+                key="validate_button",
+                help="Run comprehensive claims validation with AI analysis"
             )
         
         with col2:
-            reset_button = ui.button(
-                text="🔄 Reset",
-                variant="outline",
-                key="reset_btn"
-            )
-            
-            if reset_button:
+            if st.button("🔄 Reset", type="secondary", help="Clear all data and results"):
                 from session_management import SessionManager
                 SessionManager.clear_all()
                 st.rerun()

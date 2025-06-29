@@ -20,6 +20,3 @@ openpyxl>=3.1.0
 
 # Optional: Enhanced data validation
 jsonschema>=4.17.0
-
-#UI - streamlit-shadcn-ui
-streamlit-shadcn-ui

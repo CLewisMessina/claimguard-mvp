@@ -1,10 +1,9 @@
 # src/app.py
 """
-Healthcare Claims Validation with AI-Powered Explanations - SHADCN INTEGRATION
+Healthcare Claims Validation with AI-Powered Explanations
 """
 
 import streamlit as st
-import streamlit_shadcn_ui as ui
 import sys
 import os
 import time
@@ -479,30 +478,39 @@ def load_custom_css():
     """, unsafe_allow_html=True)
 
 def render_header():
-    """Render the application header with reliable icons and updated branding"""
+    """Render the application header with Lucide icons and updated branding"""
     render_demo_mode_banner()
     st.markdown("""
     <h1 class="main-header">
-        ⚕️ ClaimGuard
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; margin-right: 0.5rem; vertical-align: middle;">
+            <path d="M11 2a2 2 0 0 0-2 2v5H4a2 2 0 0 0-2 2v2c0 1.1.9 2 2 2h5v5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-5h5a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-5V4a2 2 0 0 0-2-2h-2z"/>
+        </svg>
+        ClaimGuard
         <span class="tagline">DETECT. EXPLAIN. IMPROVE.</span>
     </h1>
     """, unsafe_allow_html=True)
     st.markdown('<p style="text-align: center; font-size: 1.2rem; color: #667085; margin-bottom: 2rem;">Pre-payment healthcare claims validation powered by advanced AI</p>', unsafe_allow_html=True)
 
 def render_demo_mode_banner():
-    """Render demo mode banner with shadcn alert"""
-    ui.alert(
-        title="▶️ DEMO MODE",
-        description="Healthcare Claims Validation System - Demonstration environment with sample data",
-        key="demo_banner"
-    )
+    """Render demo mode banner with Lucide icon"""
+    st.markdown("""
+    <div class="demo-banner">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; margin-right: 0.5rem; vertical-align: middle;">
+            <circle cx="12" cy="12" r="10"/>
+            <polygon points="10,8 16,12 10,16 10,8"/>
+        </svg>
+        <strong>DEMO MODE</strong> - Healthcare Claims Validation System
+    </div>
+    """, unsafe_allow_html=True)
 
 def render_simple_processing_status(message: str):
-    """Render simplified processing status with shadcn components"""
-    with ui.card(key="processing_status"):
-        st.markdown(f"### {message}")
-        st.markdown("Processing your claims with AI-powered validation...")
-        ui.progress(data=50, key="processing_progress")
+    """Render simplified processing status without performance clutter"""
+    st.markdown(f"""
+    <div class="processing-progress-simple">
+        <h4>{message}</h4>
+        <p>Processing your claims with AI-powered validation...</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 def process_claims_validation_streamlined(enable_ai: bool, max_ai_claims: int):
     """Process claims validation with simplified progress tracking"""
@@ -529,18 +537,10 @@ def process_claims_validation_streamlined(enable_ai: bool, max_ai_claims: int):
             SessionManager.mark_processing_complete()
             
             # Show simple success message
-            ui.alert(
-                title="✅ Claims validation completed!",
-                description=f"Analyzed {len(uploaded_data)} claims successfully.",
-                key="validation_success"
-            )
+            st.success(f"✅ Claims validation completed! Analyzed {len(uploaded_data)} claims.")
             
         except Exception as e:
-            ui.alert(
-                title="❌ Validation failed",
-                description=f"Error: {str(e)} - Please check your data and try again",
-                key="validation_error"
-            )
+            st.error(f"❌ Validation failed: {str(e)}")
 
 def generate_ai_explanations_streamlined(validation_results: dict, uploaded_data, max_ai_claims: int):
     """Generate AI explanations with simplified progress tracking"""
@@ -588,11 +588,8 @@ def generate_ai_explanations_streamlined(validation_results: dict, uploaded_data
         return ai_explanations
         
     except Exception as e:
-        ui.alert(
-            title="⚠️ AI explanations unavailable",
-            description=f"Error: {str(e)} - Validation results still available with rule-based analysis",
-            key="ai_unavailable"
-        )
+        st.warning(f"⚠️ AI explanations unavailable: {str(e)}")
+        st.info("💡 Validation results still available with rule-based analysis")
         return {}
 
 def render_main_content_streamlined(enable_ai: bool, severity_filter: list, max_ai_claims: int):
