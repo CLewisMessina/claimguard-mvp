@@ -7,6 +7,9 @@ import streamlit as st
 import sys
 import os
 import time
+import asyncio
+import concurrent.futures
+from typing import Dict, Any
 
 # Add src directory to path for imports
 sys.path.append(os.path.join(os.path.dirname(__file__)))
@@ -474,6 +477,18 @@ def load_custom_css():
             color: var(--light-accent) !important;
             border-radius: 0 0 8px 8px !important;
         }
+
+        /* Performance Status Styling */
+        .parallel-processing-status {
+            background: linear-gradient(90deg, var(--action-green), var(--success-green));
+            color: var(--primary-dark);
+            padding: 0.8rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            border: 2px solid var(--primary-dark);
+        }
     </style>
     """, unsafe_allow_html=True)
 
@@ -503,22 +518,22 @@ def render_demo_mode_banner():
     </div>
     """, unsafe_allow_html=True)
 
-def render_simple_processing_status(message: str):
-    """Render simplified processing status without performance clutter"""
+def render_parallel_processing_status(message: str, workers: int = 5):
+    """Render parallel processing status indicator"""
     st.markdown(f"""
-    <div class="processing-progress-simple">
-        <h4>{message}</h4>
-        <p>Processing your claims with AI-powered validation...</p>
+    <div class="parallel-processing-status">
+        <h4>⚡ {message}</h4>
+        <p>Processing with {workers} parallel AI workers for maximum speed...</p>
     </div>
     """, unsafe_allow_html=True)
 
-def process_claims_validation_streamlined(enable_ai: bool, max_ai_claims: int):
-    """Process claims validation with simplified progress tracking"""
+def process_claims_validation_parallel(enable_ai: bool, max_ai_claims: int):
+    """Process claims validation with parallel AI analysis for maximum speed"""
     
-    with st.spinner("🔄 Validating claims with AI analysis..."):
+    with st.spinner("🔄 Validating claims with parallel AI analysis..."):
         try:
-            # Show simple processing message
-            render_simple_processing_status("🤖 Analyzing claims for validation errors...")
+            # Show parallel processing status
+            render_parallel_processing_status("🤖 Analyzing claims with parallel AI processing...")
             
             # Initialize validator
             validator = ClaimValidator()
@@ -528,38 +543,37 @@ def process_claims_validation_streamlined(enable_ai: bool, max_ai_claims: int):
             validation_results = validator.validate_batch(uploaded_data)
             SessionManager.set_validation_results(validation_results)
             
-            # Generate AI explanations if enabled
+            # Generate AI explanations if enabled - NOW WITH PARALLEL PROCESSING
             if enable_ai and validation_results['validation_results']:
-                render_simple_processing_status("🧠 Generating AI explanations...")
-                ai_explanations = generate_ai_explanations_streamlined(validation_results, uploaded_data, max_ai_claims)
+                render_parallel_processing_status("🧠 Generating AI explanations with 5 parallel workers...")
+                ai_explanations = generate_ai_explanations_parallel(validation_results, uploaded_data, max_ai_claims)
                 SessionManager.set_ai_explanations(ai_explanations)
             
             SessionManager.mark_processing_complete()
             
-            # Show simple success message
-            st.success(f"✅ Claims validation completed! Analyzed {len(uploaded_data)} claims.")
+            # Show success message with performance info
+            total_claims = len(uploaded_data)
+            ai_count = len(SessionManager.get_ai_explanations()) if enable_ai else 0
+            st.success(f"✅ Claims validation completed! Analyzed {total_claims} claims with {ai_count} AI explanations.")
             
         except Exception as e:
             st.error(f"❌ Validation failed: {str(e)}")
 
-def generate_ai_explanations_streamlined(validation_results: dict, uploaded_data, max_ai_claims: int):
-    """Generate AI explanations with simplified progress tracking"""
+def generate_ai_explanations_parallel(validation_results: dict, uploaded_data, max_ai_claims: int):
+    """Generate AI explanations using parallel processing for maximum speed"""
     
     ai_explanations = {}
-    processed_count = 0
     
     try:
         explainer = ClaimExplainer()
         claims_dict = uploaded_data.set_index('claim_id').to_dict('index')
         
-        # Simple progress tracking
-        progress_bar = st.progress(0)
-        status_text = st.empty()
-        
-        for result in validation_results['validation_results']:
-            if processed_count >= max_ai_claims:
+        # Prepare tasks for parallel processing
+        validation_tasks = []
+        for i, result in enumerate(validation_results['validation_results']):
+            if i >= max_ai_claims:
                 break
-            
+                
             claim_data = claims_dict.get(int(result.claim_id), {})
             error_dict = {
                 'error_type': result.error_type,
@@ -567,23 +581,64 @@ def generate_ai_explanations_streamlined(validation_results: dict, uploaded_data
                 'severity': result.severity
             }
             
+            validation_tasks.append({
+                'claim_id': result.claim_id,
+                'error_dict': error_dict,
+                'claim_data': claim_data
+            })
+        
+        if not validation_tasks:
+            return {}
+        
+        # Progress tracking
+        progress_bar = st.progress(0)
+        status_text = st.empty()
+        
+        def process_single_claim(task):
+            """Process a single claim's AI analysis"""
             try:
-                ai_explanation = explainer.generate_explanation(error_dict, claim_data)
-                ai_explanations[result.claim_id] = ai_explanation
-                processed_count += 1
-                
-                # Update simple progress
-                progress = processed_count / min(max_ai_claims, len(validation_results['validation_results']))
-                progress_bar.progress(progress)
-                status_text.text(f"Generated AI analysis for {processed_count} of {min(max_ai_claims, len(validation_results['validation_results']))} claims")
-                
+                ai_explanation = explainer.generate_explanation(task['error_dict'], task['claim_data'])
+                return task['claim_id'], ai_explanation
             except Exception as e:
-                st.warning(f"AI analysis failed for claim {result.claim_id}: {str(e)}")
-                continue
+                st.warning(f"AI analysis failed for claim {task['claim_id']}: {str(e)}")
+                return task['claim_id'], None
+        
+        # Execute parallel processing with ThreadPoolExecutor
+        completed_count = 0
+        total_tasks = len(validation_tasks)
+        
+        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+            # Submit all tasks
+            future_to_claim = {
+                executor.submit(process_single_claim, task): task['claim_id'] 
+                for task in validation_tasks
+            }
+            
+            # Process completed tasks as they finish
+            for future in concurrent.futures.as_completed(future_to_claim):
+                claim_id, ai_explanation = future.result()
+                
+                if ai_explanation:
+                    ai_explanations[claim_id] = ai_explanation
+                
+                completed_count += 1
+                
+                # Update progress
+                progress = completed_count / total_tasks
+                progress_bar.progress(progress)
+                status_text.text(f"Completed AI analysis for {completed_count} of {total_tasks} claims")
         
         # Clear progress indicators
         progress_bar.empty()
         status_text.empty()
+        
+        # Show performance summary
+        st.markdown(f"""
+        <div class="parallel-processing-status">
+            🚀 <strong>Parallel Processing Complete!</strong><br>
+            Generated {len(ai_explanations)} AI explanations using 5 parallel workers
+        </div>
+        """, unsafe_allow_html=True)
         
         return ai_explanations
         
@@ -592,8 +647,8 @@ def generate_ai_explanations_streamlined(validation_results: dict, uploaded_data
         st.info("💡 Validation results still available with rule-based analysis")
         return {}
 
-def render_main_content_streamlined(enable_ai: bool, severity_filter: list, max_ai_claims: int):
-    """Render main content area with streamlined interface"""
+def render_main_content_parallel(enable_ai: bool, severity_filter: list, max_ai_claims: int):
+    """Render main content area with parallel processing interface"""
     
     if not SessionManager.has_data():
         # Show welcome screen
@@ -603,9 +658,9 @@ def render_main_content_streamlined(enable_ai: bool, severity_filter: list, max_
     # Show processing controls
     validate_button = SidebarControls.render_processing_controls()
     
-    # Handle validation processing
+    # Handle validation processing with parallel AI
     if validate_button:
-        process_claims_validation_streamlined(enable_ai, max_ai_claims)
+        process_claims_validation_parallel(enable_ai, max_ai_claims)
     
     # Display results if available
     if SessionManager.has_results():
@@ -632,7 +687,7 @@ def render_main_content_streamlined(enable_ai: bool, severity_filter: list, max_
         ValidationUI.render_export_options(validation_results)
 
 def main():
-    """Main application orchestration function - streamlined version"""
+    """Main application orchestration function - now with parallel processing"""
     # Initialize application
     load_custom_css()
     SessionManager.initialize_session_state()
@@ -643,8 +698,8 @@ def main():
     # Render sidebar and get user settings
     enable_ai, ai_depth, max_ai_claims, severity_filter = SidebarControls.render_sidebar()
     
-    # Render main content with streamlined interface
-    render_main_content_streamlined(enable_ai, severity_filter, max_ai_claims)
+    # Render main content with parallel processing
+    render_main_content_parallel(enable_ai, severity_filter, max_ai_claims)
     
     # Render footer
     render_footer()
