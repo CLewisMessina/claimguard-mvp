@@ -108,7 +108,7 @@ def render_business_impact_summary(validation_results: Dict, uploaded_data: pd.D
             st.markdown(f"**Efficiency Gain:** {(len(uploaded_data)/validation_results['summary']['processing_time_seconds']/60):.0f}x faster")
 
 def render_action_recommendations(validation_results: Dict) -> None:
-    """Render actionable recommendations with cards and standard alerts"""
+    """Render actionable recommendations with shadcn alerts"""
     
     if not validation_results or not validation_results['validation_results']:
         return
@@ -128,29 +128,37 @@ def render_action_recommendations(validation_results: Dict) -> None:
         if result.severity == "HIGH":
             high_priority_claims.append(result.claim_id)
     
-    # Generate recommendations with cards
+    # Generate recommendations with proper shadcn alerts
     if "Gender-Procedure Mismatch" in error_types:
         count = error_types["Gender-Procedure Mismatch"]
-        with ui.card(key="rec_gender"):
-            st.markdown("#### 🚨 Immediate Review Required (URGENT Priority)")
-            st.markdown(f"{count} claims with gender-procedure mismatches detected. Review for potential data entry errors or fraud within 24 hours.")
+        ui.alert(
+            title="🚨 Immediate Review Required (URGENT Priority)",
+            description=f"{count} claims with gender-procedure mismatches detected. Review for potential data entry errors or fraud within 24 hours.",
+            key="alert_gender"
+        )
     
     if "Age-Procedure Mismatch" in error_types:
         count = error_types["Age-Procedure Mismatch"]
-        with ui.card(key="rec_age"):
-            st.markdown("#### ⚠️ Medical Necessity Review (HIGH Priority)")
-            st.markdown(f"Verify medical necessity for {count} age-inappropriate procedures within 3 days.")
+        ui.alert(
+            title="⚠️ Medical Necessity Review (HIGH Priority)",
+            description=f"Verify medical necessity for {count} age-inappropriate procedures within 3 days.",
+            key="alert_age"
+        )
     
     if "Anatomical Logic Error" in error_types:
         count = error_types["Anatomical Logic Error"]
-        with ui.card(key="rec_anatomy"):
-            st.markdown("#### ⚠️ Coding Accuracy Check (HIGH Priority)")
-            st.markdown(f"Audit {count} claims with anatomical inconsistencies for coding errors within 24 hours.")
+        ui.alert(
+            title="⚠️ Coding Accuracy Check (HIGH Priority)",
+            description=f"Audit {count} claims with anatomical inconsistencies for coding errors within 24 hours.",
+            key="alert_anatomy"
+        )
     
     if len(high_priority_claims) > 0:
-        with ui.card(key="rec_payment"):
-            st.markdown("#### 🚨 Payment Hold Required (URGENT - Immediate Action)")
-            st.markdown(f"Place immediate payment hold on {len(set(high_priority_claims))} high-risk claims pending manual review.")
+        ui.alert(
+            title="🚨 Payment Hold Required (URGENT - Immediate Action)",
+            description=f"Place immediate payment hold on {len(set(high_priority_claims))} high-risk claims pending manual review.",
+            key="alert_payment_hold"
+        )
 
 def render_export_options_shadcn(validation_results: Dict[str, Any]) -> None:
     """Render export options with shadcn buttons"""

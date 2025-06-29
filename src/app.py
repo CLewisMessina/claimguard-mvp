@@ -490,12 +490,12 @@ def render_header():
     st.markdown('<p style="text-align: center; font-size: 1.2rem; color: #667085; margin-bottom: 2rem;">Pre-payment healthcare claims validation powered by advanced AI</p>', unsafe_allow_html=True)
 
 def render_demo_mode_banner():
-    """Render demo mode banner with custom styling"""
-    st.markdown("""
-    <div class="demo-banner">
-        <strong>▶️ DEMO MODE</strong> - Healthcare Claims Validation System
-    </div>
-    """, unsafe_allow_html=True)
+    """Render demo mode banner with shadcn alert"""
+    ui.alert(
+        title="▶️ DEMO MODE",
+        description="Healthcare Claims Validation System - Demonstration environment with sample data",
+        key="demo_banner"
+    )
 
 def render_simple_processing_status(message: str):
     """Render simplified processing status with shadcn components"""
@@ -529,10 +529,18 @@ def process_claims_validation_streamlined(enable_ai: bool, max_ai_claims: int):
             SessionManager.mark_processing_complete()
             
             # Show simple success message
-            st.success(f"✅ Claims validation completed! Analyzed {len(uploaded_data)} claims.")
+            ui.alert(
+                title="✅ Claims validation completed!",
+                description=f"Analyzed {len(uploaded_data)} claims successfully.",
+                key="validation_success"
+            )
             
         except Exception as e:
-            st.error(f"❌ Validation failed: {str(e)}")
+            ui.alert(
+                title="❌ Validation failed",
+                description=f"Error: {str(e)} - Please check your data and try again",
+                key="validation_error"
+            )
 
 def generate_ai_explanations_streamlined(validation_results: dict, uploaded_data, max_ai_claims: int):
     """Generate AI explanations with simplified progress tracking"""
@@ -580,8 +588,11 @@ def generate_ai_explanations_streamlined(validation_results: dict, uploaded_data
         return ai_explanations
         
     except Exception as e:
-        st.warning(f"⚠️ AI explanations unavailable: {str(e)}")
-        st.info("💡 Validation results still available with rule-based analysis")
+        ui.alert(
+            title="⚠️ AI explanations unavailable",
+            description=f"Error: {str(e)} - Validation results still available with rule-based analysis",
+            key="ai_unavailable"
+        )
         return {}
 
 def render_main_content_streamlined(enable_ai: bool, severity_filter: list, max_ai_claims: int):
