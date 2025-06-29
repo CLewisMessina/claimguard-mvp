@@ -498,12 +498,11 @@ def render_demo_mode_banner():
     """, unsafe_allow_html=True)
 
 def render_simple_processing_status(message: str):
-    """Render simplified processing status with card"""
+    """Render simplified processing status with shadcn components"""
     with ui.card(key="processing_status"):
         st.markdown(f"### {message}")
         st.markdown("Processing your claims with AI-powered validation...")
-        # Use standard Streamlit progress bar
-        st.progress(0.5)
+        ui.progress(data=50, key="processing_progress")
 
 def process_claims_validation_streamlined(enable_ai: bool, max_ai_claims: int):
     """Process claims validation with simplified progress tracking"""
