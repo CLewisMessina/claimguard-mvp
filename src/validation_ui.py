@@ -31,11 +31,7 @@ class ValidationUI:
         ]
         
         if not filtered_results:
-            ui.alert(
-                title="No validation errors found",
-                description="No errors found matching your filter criteria. Try adjusting your severity filters.",
-                key="no_results_alert"
-            )
+            st.info("No validation errors found matching your filter criteria. Try adjusting your severity filters.")
             return
         
         # Group results by claim ID
@@ -76,28 +72,30 @@ class ValidationUI:
                     ai_explanation = ai_explanations[claim_id]
                     AIUIComponents.render_enhanced_ai_explanation(ai_explanation)
                 elif show_ai_analysis:
-                    ui.alert(
-                        title="🤖 AI Analysis Available",
-                        description="AI analysis would appear here with detailed medical reasoning and business impact assessment.",
-                        key=f"ai_placeholder_{claim_id}"
-                    )
+                    st.info("🤖 AI analysis would appear here with detailed medical reasoning and business impact assessment.")
     
     @staticmethod
     def _render_single_validation_error_shadcn(result):
-        """Render a single validation error with shadcn alert"""
-        # Choose icon based on severity
+        """Render a single validation error with custom styling"""
+        # Determine styling based on severity
         if result.severity == "HIGH":
+            css_class = "error-high"
             icon = "🚨"
         elif result.severity == "MEDIUM":
+            css_class = "error-medium"
             icon = "⚠️"
         else:
+            css_class = "error-low"
             icon = "ℹ️"
         
-        ui.alert(
-            title=f"{icon} {result.error_type}",
-            description=f"{result.description} | Recommendation: {result.recommendation} | Confidence: {result.confidence:.0%}",
-            key=f"error_alert_{result.claim_id}_{result.error_type.replace(' ', '_').replace('-', '_')}"
-        )
+        st.markdown(f"""
+        <div class="{css_class}">
+            <h4>{icon} {result.error_type}</h4>
+            <p><strong>Description:</strong> {result.description}</p>
+            <p><strong>Recommendation:</strong> {result.recommendation}</p>
+            <p><strong>Confidence:</strong> {result.confidence:.0%}</p>
+        </div>
+        """, unsafe_allow_html=True)
     
     @staticmethod
     def render_duplicate_errors(validation_results: Dict[str, Any]):
@@ -108,11 +106,7 @@ class ValidationUI:
         st.markdown("### 🔄 Duplicate Services Detected")
         
         for i, duplicate in enumerate(validation_results['duplicate_errors']):
-            ui.alert(
-                title="⚠️ Duplicate Service Detected",
-                description=f"{duplicate['cpt_code']} billed {duplicate['count']} times for patient {duplicate['patient_id']} on {duplicate['service_date']}. Recommendation: {duplicate['recommendation']}",
-                key=f"duplicate_alert_{i}"
-            )
+            st.warning(f"⚠️ Duplicate Service: {duplicate['cpt_code']} billed {duplicate['count']} times for patient {duplicate['patient_id']} on {duplicate['service_date']}. Recommendation: {duplicate['recommendation']}")
     
     @staticmethod
     def render_export_options(validation_results: Dict[str, Any]):
@@ -169,20 +163,14 @@ class ValidationUI:
             **🚀 Enhanced AI Capabilities:**
             """)
             
-            # Render steps with shadcn alerts
-            steps_data = [
-                {"title": "📁 Step 1", "content": "Upload your claims CSV file using the sidebar"},
-                {"title": "🔍 Step 2", "content": "Click \"Validate Claims with AI Analysis\" to run advanced validation"},
-                {"title": "🤖 Step 3", "content": "Review AI-powered medical reasoning and business impact analysis"},
-                {"title": "📊 Step 4", "content": "Export comprehensive validation reports with actionable insights"}
-            ]
-            
-            for step in steps_data:
-                ui.alert(
-                    title=step["title"],
-                    description=step["content"],
-                    key=f"step_{step['title'].split()[-1]}"
-                )
+            # Simple step display
+            st.markdown("""
+            **🚀 Enhanced AI Capabilities:**
+            1. 📁 Upload your claims CSV file using the sidebar
+            2. 🔍 Click "Validate Claims with AI Analysis" to run advanced validation  
+            3. 🤖 Review AI-powered medical reasoning and business impact analysis
+            4. 📊 Export comprehensive validation reports with actionable insights
+            """)
             
             st.markdown("""
             **Or try our sample dataset** to see ClaimGuard's advanced AI in action!
@@ -211,44 +199,34 @@ class ValidationUI:
     
     @staticmethod
     def _render_csv_format_info_shadcn():
-        """Render CSV format information with shadcn accordion"""
-        csv_format_data = [
-            {
-                "trigger": "📋 Required CSV Format",
-                "content": """Your CSV file should include these columns:
-                
-- `claim_id`: Unique identifier for each claim
-- `patient_id`: Patient identifier  
-- `age`: Patient age
-- `gender`: Patient gender (M/F)
-- `cpt_code`: Procedure code (CPT)
-- `diagnosis_code`: Diagnosis code (ICD-10)
-- `service_date`: Date of service
-- `provider_id`: Provider identifier
-- `charge_amount`: Claim amount"""
-            }
-        ]
-        
-        ui.accordion(data=csv_format_data, key="csv_format_accordion")
+        """Render CSV format information with standard expander"""
+        with st.expander("📋 Required CSV Format"):
+            st.markdown("""
+            Your CSV file should include these columns:
+            - `claim_id`: Unique identifier for each claim
+            - `patient_id`: Patient identifier  
+            - `age`: Patient age
+            - `gender`: Patient gender (M/F)
+            - `cpt_code`: Procedure code (CPT)
+            - `diagnosis_code`: Diagnosis code (ICD-10)
+            - `service_date`: Date of service
+            - `provider_id`: Provider identifier
+            - `charge_amount`: Claim amount
+            """)
     
     @staticmethod
     def _render_ai_features_info_shadcn():
-        """Render AI capabilities information with shadcn accordion"""
-        ai_features_data = [
-            {
-                "trigger": "🤖 AI Analysis Features",
-                "content": """**Advanced AI provides:**
-
-- **Medical Reasoning**: Clinical explanations with specific medical knowledge
-- **Business Impact**: Operational consequences and workflow disruption analysis
-- **Financial Impact**: Specific dollar impact calculations and recovery costs
-- **Regulatory Concerns**: CMS compliance issues and audit risk factors
-- **Fraud Detection**: Risk indicators and suspicious pattern identification
-- **Actionable Next Steps**: Prioritized recommendations with timelines"""
-            }
-        ]
-        
-        ui.accordion(data=ai_features_data, key="ai_features_accordion")
+        """Render AI capabilities information with standard expander"""
+        with st.expander("🤖 AI Analysis Features"):
+            st.markdown("""
+            **Advanced AI provides:**
+            - **Medical Reasoning**: Clinical explanations with specific medical knowledge
+            - **Business Impact**: Operational consequences and workflow disruption analysis
+            - **Financial Impact**: Specific dollar impact calculations and recovery costs
+            - **Regulatory Concerns**: CMS compliance issues and audit risk factors
+            - **Fraud Detection**: Risk indicators and suspicious pattern identification
+            - **Actionable Next Steps**: Prioritized recommendations with timelines
+            """)
 import pandas as pd
 from datetime import datetime
 from typing import Dict, Any, List
