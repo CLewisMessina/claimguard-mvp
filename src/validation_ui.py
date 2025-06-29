@@ -119,13 +119,7 @@ class ValidationUI:
         col1, col2 = st.columns(2)
         
         with col1:
-            summary_btn = ui.button(
-                text="📊 Download Summary Report",
-                variant="default",
-                key="export_summary_shadcn"
-            )
-            
-            if summary_btn:
+            if st.button("📊 Download Summary Report", type="primary"):
                 csv_data = DataHandler.export_summary_report(validation_results)
                 st.download_button(
                     label="💾 Download CSV",
@@ -135,13 +129,7 @@ class ValidationUI:
                 )
         
         with col2:
-            detailed_btn = ui.button(
-                text="📋 Download Detailed Results",
-                variant="outline",
-                key="export_detailed_shadcn"
-            )
-            
-            if detailed_btn:
+            if st.button("📋 Download Detailed Results", type="secondary"):
                 csv_data = DataHandler.export_detailed_results(validation_results)
                 if csv_data:
                     st.download_button(

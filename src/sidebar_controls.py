@@ -43,28 +43,22 @@ class SidebarControls:
     
     @staticmethod
     def _render_sample_data_section():
-        """Render sample data loading section with shadcn button"""
+        """Render sample data loading section"""
         st.markdown("#### 🧪 Or Use Sample Data")
         
-        sample_btn = ui.button(
-            text="📥 Load Sample Dataset",
-            variant="outline",
-            key="load_sample_btn"
-        )
-        
-        if sample_btn:
+        if st.button("📥 Load Sample Dataset", type="secondary"):
             DataHandler.load_sample_dataset()
     
     @staticmethod
     def _render_simplified_ai_settings() -> Tuple[bool, str, int]:
-        """Render simplified AI analysis settings with shadcn components"""
+        """Render simplified AI analysis settings"""
         st.markdown("#### ⚙️ AI Analysis Settings")
         
-        # Use shadcn checkbox for AI enable/disable
-        enable_ai_explanations = ui.checkbox(
-            label="🤖 Generate AI Explanations",
-            default=True,
-            key="ai_enable_checkbox"
+        # Use standard Streamlit checkbox for reliability
+        enable_ai_explanations = st.checkbox(
+            "🤖 Generate AI Explanations", 
+            value=True,
+            help="Use advanced AI to generate detailed medical and business analysis"
         )
         
         ai_analysis_depth = st.selectbox(
@@ -140,21 +134,23 @@ class SidebarControls:
     
     @staticmethod
     def render_processing_controls():
-        """Render processing control buttons with shadcn styling"""
+        """Render processing control buttons with reliable styling"""
         col1, col2 = st.columns([3, 1])
         
         with col1:
-            validate_button = ui.button(
-                text="🔍 Validate Claims with AI",
-                variant="default",
-                key="validate_claims_btn"
+            validate_button = st.button(
+                "🔍 Validate Claims with AI",
+                type="primary",
+                key="validate_claims_btn",
+                help="Run comprehensive claims validation with AI analysis"
             )
         
         with col2:
-            reset_button = ui.button(
-                text="🔄 Reset",
-                variant="outline",
-                key="reset_btn"
+            reset_button = st.button(
+                "🔄 Reset",
+                type="secondary",
+                key="reset_btn",
+                help="Clear all data and results"
             )
             
             if reset_button:

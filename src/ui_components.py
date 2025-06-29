@@ -153,7 +153,7 @@ def render_action_recommendations(validation_results: Dict) -> None:
             st.markdown(f"Place immediate payment hold on {len(set(high_priority_claims))} high-risk claims pending manual review.")
 
 def render_export_options_shadcn(validation_results: Dict[str, Any]) -> None:
-    """Render export options with shadcn buttons"""
+    """Render export options with standard buttons"""
     
     if not validation_results:
         return
@@ -163,13 +163,7 @@ def render_export_options_shadcn(validation_results: Dict[str, Any]) -> None:
     col1, col2 = st.columns(2)
     
     with col1:
-        summary_btn = ui.button(
-            text="📊 Download Summary Report",
-            variant="default",
-            key="export_summary_btn"
-        )
-        
-        if summary_btn:
+        if st.button("📊 Download Summary Report", type="primary"):
             from data_handlers import DataHandler
             csv_data = DataHandler.export_summary_report(validation_results)
             st.download_button(
@@ -180,13 +174,7 @@ def render_export_options_shadcn(validation_results: Dict[str, Any]) -> None:
             )
     
     with col2:
-        detailed_btn = ui.button(
-            text="📋 Download Detailed Results",
-            variant="outline",
-            key="export_detailed_btn"
-        )
-        
-        if detailed_btn:
+        if st.button("📋 Download Detailed Results", type="secondary"):
             from data_handlers import DataHandler
             csv_data = DataHandler.export_detailed_results(validation_results)
             if csv_data:
