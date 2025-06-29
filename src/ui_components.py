@@ -13,7 +13,7 @@ from datetime import datetime
 from typing import List, Dict, Any
 
 def render_kpi_dashboard(validation_results: Dict) -> None:
-    """Render KPI dashboard with professional styling"""
+    """Render KPI dashboard with shadcn metric cards"""
     
     if not validation_results:
         return
@@ -31,44 +31,41 @@ def render_kpi_dashboard(validation_results: Dict) -> None:
     avg_claim_value = 1000
     potential_savings = error_claims * avg_claim_value * 0.15
     
-    # Create professional metric display with cards
+    # Create shadcn metric cards
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        with ui.card(key="metric_claims_card"):
-            st.metric(
-                label="Claims Analyzed",
-                value=f"{total_claims:,}",
-                help="Total number of claims processed for validation"
-            )
+        ui.metric_card(
+            title="Claims Analyzed",
+            value=f"{total_claims:,}",
+            description="Total processed claims",
+            key="metric_claims"
+        )
     
     with col2:
-        with ui.card(key="metric_errors_card"):
-            st.metric(
-                label="Errors Detected", 
-                value=f"{error_claims:,}",
-                delta=f"{error_rate:.1f}% error rate",
-                delta_color="inverse",
-                help="Claims flagged for manual review or rejection"
-            )
+        ui.metric_card(
+            title="Errors Detected", 
+            value=f"{error_claims:,}",
+            description=f"{error_rate:.1f}% error rate",
+            key="metric_errors"
+        )
     
     with col3:
-        with ui.card(key="metric_savings_card"):
-            st.metric(
-                label="Potential Savings",
-                value=f"${potential_savings:,.0f}",
-                help="Estimated cost savings from preventing overpayments"
-            )
+        ui.metric_card(
+            title="Potential Savings",
+            value=f"${potential_savings:,.0f}",
+            description="Cost prevention estimate",
+            key="metric_savings"
+        )
     
     with col4:
-        with ui.card(key="metric_time_card"):
-            processing_time = summary['processing_time_seconds']
-            st.metric(
-                label="Processing Time",
-                value=f"{processing_time:.1f}s",
-                delta="Real-time analysis",
-                help="Total time to analyze all claims with AI"
-            )
+        processing_time = summary['processing_time_seconds']
+        ui.metric_card(
+            title="Processing Time",
+            value=f"{processing_time:.1f}s",
+            description="Real-time analysis",
+            key="metric_time"
+        )
 
 def render_business_impact_summary(validation_results: Dict, uploaded_data: pd.DataFrame) -> None:
     """Render business impact with shadcn cards"""
@@ -189,7 +186,7 @@ def render_export_options_shadcn(validation_results: Dict[str, Any]) -> None:
                 )
 
 def render_simplified_ai_summary(ai_explanations: Dict[str, Any]):
-    """Render AI analysis summary with professional cards"""
+    """Render AI analysis summary with shadcn components"""
     if not ai_explanations:
         return
     
@@ -206,34 +203,32 @@ def render_simplified_ai_summary(ai_explanations: Dict[str, Any]):
         'LOW': risk_levels.count('LOW')
     }
     
-    # Business-focused metrics with cards
+    # Business-focused metrics with shadcn
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        with ui.card(key="ai_metric_total_card"):
-            st.metric(
-                label="AI Analyses",
-                value=f"{total_analyses}",
-                help="Number of AI-powered explanations generated"
-            )
+        ui.metric_card(
+            title="AI Analyses",
+            value=f"{total_analyses}",
+            description="Generated explanations",
+            key="ai_metric_total"
+        )
     
     with col2:
-        with ui.card(key="ai_metric_risk_card"):
-            st.metric(
-                label="High Risk Claims",
-                value=f"{risk_counts['HIGH']}",
-                delta=f"{(risk_counts['HIGH']/total_analyses*100):.0f}% of analyzed",
-                delta_color="inverse",
-                help="Claims requiring immediate attention"
-            )
+        ui.metric_card(
+            title="High Risk Claims",
+            value=f"{risk_counts['HIGH']}",
+            description=f"{(risk_counts['HIGH']/total_analyses*100):.0f}% of analyzed",
+            key="ai_metric_risk"
+        )
     
     with col3:
-        with ui.card(key="ai_metric_confidence_card"):
-            st.metric(
-                label="AI Confidence",
-                value=f"{avg_confidence:.0%}",
-                help="Average confidence across all analyses"
-            )
+        ui.metric_card(
+            title="AI Confidence",
+            value=f"{avg_confidence:.0%}",
+            description="Average accuracy",
+            key="ai_metric_confidence"
+        )
 
 def render_error_trend_chart(validation_results: Dict) -> None:
     """Render error trend analysis chart with enhanced styling"""
