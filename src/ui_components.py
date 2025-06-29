@@ -312,7 +312,7 @@ def render_error_trend_chart(validation_results: Dict) -> None:
             st.plotly_chart(fig_pie, use_container_width=True)
 
 def render_claim_details_table(uploaded_data: pd.DataFrame, validation_results: Dict) -> None:
-    """Render interactive table with shadcn enhancements"""
+    """Render interactive table without problematic card wrapper"""
     
     if uploaded_data is None or validation_results is None:
         return
@@ -366,7 +366,7 @@ def render_claim_details_table(uploaded_data: pd.DataFrame, validation_results: 
     
     display_df = enhanced_df[columns_order]
     
-    # Add filtering options with shadcn components
+    # Add filtering options
     col1, col2, col3 = st.columns(3)
     
     with col1:
@@ -399,31 +399,30 @@ def render_claim_details_table(uploaded_data: pd.DataFrame, validation_results: 
         (display_df['age'] <= age_range[1])
     ]
     
-    # Display filtered table in a card
-    with ui.card(key="claims_table_card"):
-        st.dataframe(
-            filtered_df,
-            use_container_width=True,
-            height=400,
-            column_config={
-                "claim_id": "Claim ID",
-                "Validation_Status": st.column_config.TextColumn(
-                    "Status",
-                    width="small"
-                ),
-                "charge_amount": st.column_config.NumberColumn(
-                    "Amount",
-                    format="$%.2f"
-                ),
-                "Error_Details": st.column_config.TextColumn(
-                    "Error Details",
-                    width="large"
-                )
-            }
-        )
-        
-        # Summary of filtered results
-        st.markdown(f"**Showing {len(filtered_df)} of {len(display_df)} claims**")
+    # Display filtered table without card wrapper
+    st.dataframe(
+        filtered_df,
+        use_container_width=True,
+        height=400,
+        column_config={
+            "claim_id": "Claim ID",
+            "Validation_Status": st.column_config.TextColumn(
+                "Status",
+                width="small"
+            ),
+            "charge_amount": st.column_config.NumberColumn(
+                "Amount",
+                format="$%.2f"
+            ),
+            "Error_Details": st.column_config.TextColumn(
+                "Error Details",
+                width="large"
+            )
+        }
+    )
+    
+    # Summary of filtered results
+    st.markdown(f"**Showing {len(filtered_df)} of {len(display_df)} claims**")
 
 def render_claim_summary_card(claim_data: Dict, validation_results: List) -> None:
     """Render a summary card for an individual claim with shadcn styling"""
