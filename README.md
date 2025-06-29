@@ -12,6 +12,14 @@ ClaimGuard is an enterprise-grade healthcare claims validation platform that use
 
 ClaimGuard analyzes healthcare claims data to identify critical errors that could lead to improper payments, regulatory issues, or fraud. The platform combines rule-based validation with advanced AI analysis to provide comprehensive insights into claim accuracy.
 
+---
+## 📸 Demo Video (Press Play)
+
+
+https://github.com/user-attachments/assets/46a87c8d-be2d-43c8-8f0b-79672e3143ec
+
+
+
 ### Key Validation Areas
 - **Gender-Procedure Mismatches**: Detects biologically impossible procedure-gender combinations
 - **Age-Procedure Mismatches**: Identifies age-inappropriate procedures and treatments
