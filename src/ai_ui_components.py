@@ -164,7 +164,7 @@ class AIUIComponents:
                 names=list(risk_counts.keys()),
                 title="Risk Assessment Distribution",
                 color=list(risk_counts.keys()),
-                color_discrete_map={'HIGH': '#dc2626', 'MEDIUM': '#d97706', 'LOW': '#10b981'}
+                color_discrete_map={'HIGH': '#D24D57', 'MEDIUM': '#d97706', 'LOW': '#10b981'}
             )
             
             # Dark theme styling

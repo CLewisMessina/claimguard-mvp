@@ -49,7 +49,13 @@ def load_custom_css():
             --action-green: #7ed321;
             --success-green: #10b981;
             
-            --error-red: #dc2626;
+            /* Sophisticated Red Palette */
+            --primary-accent: #D24D57;      /* Muted Crimson - main error states */
+            --soft-warning: #C0392B;        /* Desaturated Brick - warnings */
+            --text-accent: #B23B3B;         /* Dark Clay Red - text highlights */
+            --button-hover: #E74C3C;        /* Warm Alert Red - interactive states */
+            --outline-subtle: #AD3E3E;      /* Auburn Edge - borders/outlines */
+            
             --warning-orange: #f59e0b;
             --info-blue: #2563eb;
             
@@ -118,11 +124,11 @@ def load_custom_css():
             font-weight: 500;
         }
         
-        /* Error Cards with Dark Theme */
+        /* Error Cards with Sophisticated Red Palette */
         .error-high {
             background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
             color: var(--light-accent);
-            border-left: 4px solid var(--error-red);
+            border-left: 4px solid var(--primary-accent);
             padding: 1.5rem;
             margin: 0.5rem 0;
             border-radius: 8px;
@@ -131,7 +137,7 @@ def load_custom_css():
         .error-medium {
             background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
             color: var(--light-accent);
-            border-left: 4px solid var(--warning-orange);
+            border-left: 4px solid var(--soft-warning);
             padding: 1.5rem;
             margin: 0.5rem 0;
             border-radius: 8px;
@@ -207,7 +213,7 @@ def load_custom_css():
             color: var(--action-green);
         }
         
-        /* Risk Indicators */
+        /* Risk Indicators with Sophisticated Reds */
         .risk-indicator {
             display: inline-block;
             padding: 0.4rem 1rem;
@@ -220,12 +226,12 @@ def load_custom_css():
         }
         
         .risk-high {
-            background-color: var(--error-red);
+            background-color: var(--primary-accent);
             color: white;
         }
         
         .risk-medium {
-            background-color: var(--warning-orange);
+            background-color: var(--soft-warning);
             color: white;
         }
         
@@ -337,11 +343,11 @@ def load_custom_css():
             background: linear-gradient(90deg, var(--action-green), var(--success-green)) !important;
         }
         
-        /* Recommendations - Dark Theme */
+        /* Recommendations - Sophisticated Red Palette */
         .recommendation-high {
             background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
             color: var(--light-accent);
-            border-left: 4px solid var(--error-red);
+            border-left: 4px solid var(--soft-warning);
             padding: 1.5rem;
             margin: 1rem 0;
             border-radius: 8px;
@@ -357,18 +363,18 @@ def load_custom_css():
         }
         
         .recommendation-urgent {
-            background: linear-gradient(135deg, var(--error-red) 0%, #b91c1c 100%);
+            background: linear-gradient(135deg, var(--primary-accent) 0%, var(--soft-warning) 100%);
             color: white;
             padding: 1.5rem;
             margin: 1rem 0;
             border-radius: 8px;
-            border: 2px solid #7f1d1d;
+            border: 2px solid var(--outline-subtle);
         }
         
-        /* Fraud Indicators */
+        /* Fraud Indicators - Sophisticated Red */
         .fraud-indicators {
             background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
-            border: 2px solid rgba(220, 38, 38, 0.6);
+            border: 2px solid var(--outline-subtle);
             color: var(--light-accent);
             border-radius: 10px;
             padding: 1.5rem;
@@ -376,7 +382,7 @@ def load_custom_css():
         }
         
         .fraud-indicators h5 {
-            color: var(--error-red);
+            color: var(--text-accent);
             margin-bottom: 0.5rem;
             font-weight: 600;
         }

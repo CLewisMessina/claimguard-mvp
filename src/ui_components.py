@@ -1,8 +1,8 @@
 # src/ui_components.py
 """
-ClaimGuard UI Components - STREAMLINED VERSION
+ClaimGuard UI Components - DARK THEME WITH LUCIDE ICONS
 Enhanced interface elements for professional healthcare application
-Focus on business value, performance clutter removed
+Focus on business value with modern icon system
 """
 
 import streamlit as st
@@ -13,36 +13,40 @@ from datetime import datetime
 from typing import List, Dict, Any
 
 def render_claim_summary_card(claim_data: Dict, validation_results: List) -> None:
-    """Render a summary card for an individual claim"""
+    """Render a summary card for an individual claim with Lucide-style icons"""
     
     # Determine overall status
     if not validation_results:
-        status = "✅ VALID"
-        status_color = "#7ed321"  # Machinify green
-        bg_color = "#f0fdf4"
+        status = "VALID"
+        status_icon = "✓"  # Will be replaced with Lucide CheckCircle
+        status_color = "#7ed321"
+        bg_color = "var(--primary-dark)"
     else:
         high_severity = any(r.severity == "HIGH" for r in validation_results)
         if high_severity:
-            status = "🚨 REJECT"
+            status = "REJECT"
+            status_icon = "⚠"  # Will be replaced with Lucide AlertTriangle
             status_color = "#dc2626"
-            bg_color = "#fee2e2"
+            bg_color = "var(--secondary-dark)"
         else:
-            status = "⚠️ REVIEW"
+            status = "REVIEW"
+            status_icon = "!"  # Will be replaced with Lucide AlertCircle
             status_color = "#f59e0b"
-            bg_color = "#fef3c7"
+            bg_color = "var(--primary-dark)"
     
-    # Create claim card
+    # Create claim card with dark theme
     st.markdown(f"""
     <div style="
-        background-color: {bg_color}; 
+        background: linear-gradient(135deg, {bg_color}, var(--accent-dark)); 
         border: 2px solid {status_color}; 
         border-radius: 10px; 
         padding: 1rem; 
         margin: 1rem 0;
+        color: var(--light-accent);
     ">
         <div style="display: flex; justify-content: between; align-items: center;">
             <h3 style="color: {status_color}; margin: 0;">
-                Claim {claim_data.get('claim_id', 'Unknown')} - {status}
+                {status_icon} Claim {claim_data.get('claim_id', 'Unknown')} - {status}
             </h3>
         </div>
         <div style="margin-top: 0.5rem;">
@@ -54,34 +58,35 @@ def render_claim_summary_card(claim_data: Dict, validation_results: List) -> Non
     """, unsafe_allow_html=True)
 
 def render_processing_progress(current_step: int, total_steps: int, step_name: str) -> None:
-    """Render simplified progress bar for validation processing"""
+    """Render simplified progress bar for validation processing with dark theme"""
     
     progress_percent = current_step / total_steps
     
     st.markdown(f"""
     <div style="margin: 1rem 0;">
-        <h4>🔄 Processing: {step_name}</h4>
+        <h4 style="color: var(--light-accent);">⚡ Processing: {step_name}</h4>
         <div style="
-            background-color: #e5e7eb; 
+            background-color: var(--secondary-dark); 
             border-radius: 10px; 
             height: 20px; 
             overflow: hidden;
+            border: 1px solid var(--action-green);
         ">
             <div style="
-                background: linear-gradient(90deg, #7ed321, #6bb91a); 
+                background: linear-gradient(90deg, var(--action-green), #6bb91a); 
                 height: 100%; 
                 width: {progress_percent * 100}%; 
                 transition: width 0.3s ease;
             "></div>
         </div>
-        <p style="margin-top: 0.5rem; color: #667085;">
+        <p style="margin-top: 0.5rem; color: var(--light-accent);">
             Step {current_step} of {total_steps} ({progress_percent:.0%} complete)
         </p>
     </div>
     """, unsafe_allow_html=True)
 
 def render_kpi_dashboard(validation_results: Dict) -> None:
-    """Render streamlined KPI dashboard focused on business value"""
+    """Render streamlined KPI dashboard focused on business value with modern icons"""
     
     if not validation_results:
         return
@@ -99,7 +104,7 @@ def render_kpi_dashboard(validation_results: Dict) -> None:
     avg_claim_value = 1000  # Average claim value assumption
     potential_savings = error_claims * avg_claim_value * 0.15  # 15% average overpayment prevention
     
-    # Create streamlined business-focused metrics
+    # Create streamlined business-focused metrics with Lucide-style icons
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
@@ -179,7 +184,7 @@ def render_simplified_ai_summary(ai_explanations: Dict[str, Any]):
         )
 
 def render_error_trend_chart(validation_results: Dict) -> None:
-    """Render simplified error trend analysis chart"""
+    """Render simplified error trend analysis chart with dark theme"""
     
     if not validation_results or not validation_results['validation_results']:
         return
@@ -211,14 +216,23 @@ def render_error_trend_chart(validation_results: Dict) -> None:
             y=error_counts.values,
             title="Errors by Type",
             color=error_counts.values,
-            color_continuous_scale=[[0, '#7ed321'], [0.5, '#f59e0b'], [1, '#dc2626']]
+            color_continuous_scale=[[0, '#7ed321'], [0.5, '#f59e0b'], [1, '#D24D57']]
         )
+        
+        # Dark theme for chart
         fig_bar.update_layout(
             height=400,
             xaxis_title="Error Type",
             yaxis_title="Number of Claims",
-            showlegend=False
+            showlegend=False,
+            plot_bgcolor='rgba(0,0,0,0)',
+            paper_bgcolor='rgba(0,0,0,0)',
+            font_color='#E2EAEF',
+            title_font_color='#E2EAEF'
         )
+        fig_bar.update_xaxes(gridcolor='#283B45', color='#E2EAEF')
+        fig_bar.update_yaxes(gridcolor='#283B45', color='#E2EAEF')
+        
         st.plotly_chart(fig_bar, use_container_width=True)
     
     with col2:
@@ -229,9 +243,18 @@ def render_error_trend_chart(validation_results: Dict) -> None:
             names=severity_counts.index,
             title="Error Severity Distribution",
             color=severity_counts.index,
-            color_discrete_map={'HIGH': '#dc2626', 'MEDIUM': '#f59e0b', 'LOW': '#7ed321'}
+            color_discrete_map={'HIGH': '#D24D57', 'MEDIUM': '#f59e0b', 'LOW': '#7ed321'}
         )
-        fig_pie.update_layout(height=400)
+        
+        # Dark theme for pie chart
+        fig_pie.update_layout(
+            height=400,
+            plot_bgcolor='rgba(0,0,0,0)',
+            paper_bgcolor='rgba(0,0,0,0)',
+            font_color='#E2EAEF',
+            title_font_color='#E2EAEF'
+        )
+        
         st.plotly_chart(fig_pie, use_container_width=True)
 
 def render_claim_details_table(uploaded_data: pd.DataFrame, validation_results: Dict) -> None:
@@ -348,7 +371,7 @@ def render_claim_details_table(uploaded_data: pd.DataFrame, validation_results: 
     st.markdown(f"**Showing {len(filtered_df)} of {len(display_df)} claims**")
 
 def render_business_impact_summary(validation_results: Dict, uploaded_data: pd.DataFrame) -> None:
-    """Render business impact analysis with Machinify styling"""
+    """Render business impact analysis with dark theme styling"""
     
     if not validation_results or uploaded_data is None:
         return
@@ -376,7 +399,7 @@ def render_business_impact_summary(validation_results: Dict, uploaded_data: pd.D
             <p><strong>Flagged Claims Value:</strong> ${flagged_amount:,.2f}</p>
             <p><strong>Estimated Savings:</strong> ${estimated_savings:,.2f}</p>
             <p><strong>Processing Cost Saved:</strong> ${processing_cost_saved:,.2f}</p>
-            <hr style="border-color: rgba(255,255,255,0.3);">
+            <hr style="border-color: rgba(126, 211, 33, 0.3);">
             <h4>Total ROI: ${(estimated_savings + processing_cost_saved):,.2f}</h4>
         </div>
         """, unsafe_allow_html=True)
@@ -395,7 +418,7 @@ def render_business_impact_summary(validation_results: Dict, uploaded_data: pd.D
         """, unsafe_allow_html=True)
 
 def render_action_recommendations(validation_results: Dict) -> None:
-    """Render actionable recommendations with Machinify styling"""
+    """Render actionable recommendations with dark theme styling"""
     
     if not validation_results or not validation_results['validation_results']:
         return
@@ -417,7 +440,7 @@ def render_action_recommendations(validation_results: Dict) -> None:
         if result.severity == "HIGH":
             high_priority_claims.append(result.claim_id)
     
-    # Generate recommendations with Machinify styling
+    # Generate recommendations with dark theme styling
     recommendations = []
     
     if "Gender-Procedure Mismatch" in error_types:
@@ -455,7 +478,7 @@ def render_action_recommendations(validation_results: Dict) -> None:
             "timeline": "Immediate"
         })
     
-    # Display recommendations with Machinify styling
+    # Display recommendations with dark theme styling
     for rec in recommendations:
         priority_class = f"recommendation-{rec['priority'].lower()}"
         
@@ -475,7 +498,7 @@ def render_action_recommendations(validation_results: Dict) -> None:
         """, unsafe_allow_html=True)
 
 def render_demo_mode_banner() -> None:
-    """Render demo mode banner with Machinify styling"""
+    """Render demo mode banner with dark theme styling"""
     
     st.markdown("""
     <div class="demo-banner">
@@ -484,13 +507,13 @@ def render_demo_mode_banner() -> None:
     """, unsafe_allow_html=True)
 
 def render_footer() -> None:
-    """Render application footer with Machinify styling"""
+    """Render application footer with dark theme styling"""
     
     st.markdown("---")
     st.markdown("""
     <div class="footer">
         <p><strong>ClaimGuard</strong> - Pre-payment Healthcare Claims Validation</p>
-        <p>Built with Machinify-inspired design principles</p>
+        <p>Detect. Explain. Improve.</p>
         <p><em>Preventing healthcare payment errors before they occur</em></p>
     </div>
     """, unsafe_allow_html=True)
