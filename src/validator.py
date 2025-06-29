@@ -1,5 +1,4 @@
 # src/validator.py
-
 """
 ClaimGuard - Healthcare Claims Validation Engine
 Detects pre-payment errors in healthcare claims
@@ -40,7 +39,7 @@ class ClaimValidator:
         
         age = claim['age']
         gender = claim['gender']
-        cpt_code = claim['cpt_code']
+        cpt_code = str(claim['cpt_code'])  # 🔧 FIX: Convert to string
         claim_id = str(claim['claim_id'])
         
         if gender == 'M' and cpt_code in female_only_procedures:
@@ -73,7 +72,7 @@ class ClaimValidator:
         pediatric_only_procedures = ['90460', '99381', '99382']
         
         age = claim['age']
-        cpt_code = claim['cpt_code']
+        cpt_code = str(claim['cpt_code'])  # 🔧 FIX: Convert to string
         claim_id = str(claim['claim_id'])
         
         if age < 18 and cpt_code in adult_only_procedures:
@@ -116,7 +115,7 @@ class ClaimValidator:
             'foot': ['M25.571', 'M21.371', 'S92.001A']
         }
         
-        cpt_code = claim['cpt_code']
+        cpt_code = str(claim['cpt_code'])  # 🔧 FIX: Convert to string
         diagnosis_code = claim['diagnosis_code']
         claim_id = str(claim['claim_id'])
         
@@ -155,7 +154,7 @@ class ClaimValidator:
         emergency_procedures = ['36415', '99281', '99291', '99283']
         routine_diagnoses = ['Z00.00', 'Z12.11', 'Z01.419']
         
-        cpt_code = claim['cpt_code']
+        cpt_code = str(claim['cpt_code'])  # 🔧 FIX: Convert to string
         diagnosis_code = claim['diagnosis_code']
         claim_id = str(claim['claim_id'])
         
